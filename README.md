@@ -52,6 +52,7 @@ defensible argument structure. This project contributes:
 
 For a quick review of the project, start with:
 
+- `docs/APPLICATION_POSITIONING.md` for a concise research-fit summary;
 - `paper/introduction_revised.tex` for the current manuscript introduction;
 - `docs/DATA_CARD.md` for scope, counts, intended uses, and release constraints;
 - `docs/ANNOTATION_PROTOCOL.md` for human-validation and scoring design;
@@ -118,6 +119,17 @@ $env:PYTHONPATH = "$PWD\src"
 python -m unittest discover -s tests
 python -m compileall scripts src
 ```
+
+## Research Software Signals
+
+This repository is intentionally organized as a research-engineering artifact, not only
+as a dataset announcement. It demonstrates:
+
+- Python scripts that regenerate public samples and metadata from a private workbook;
+- explicit dataset documentation, release constraints, and annotation protocol files;
+- lightweight tests for workbook parsing utilities;
+- an audit trail for AI-assisted coding and research workflow decisions;
+- manuscript-facing materials that separate current evidence from future validation.
 
 ## Release Status
 
