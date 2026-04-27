@@ -4,7 +4,7 @@
   "preview_policy": {
     "cn_sample_rows": 10,
     "public_exam_sample_rows": 20,
-    "max_csv_cell_characters": 180,
+    "max_csv_cell_characters": 420,
     "full_prompt_matrix_public": false,
     "full_reference_answers_public": false,
     "full_model_outputs_public": false,
@@ -144,6 +144,7 @@
   "public_files": {
     "readme": "data/README.md",
     "content_samples": [
+      "data/sample/preview_cases.md",
       "data/sample/legalbenchpro_cn_judgments_sample.csv",
       "data/sample/legalbenchpro_public_exam_sample.csv"
     ],

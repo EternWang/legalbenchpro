@@ -20,8 +20,8 @@ The committed metadata file reports counts extracted from the local workbook:
 - Model configurations: 22 in the main multimodel sheets.
 - Public content previews: 10 English-language Chinese real-case preview rows and 20
   public-exam preview rows.
-- Public metadata: model configurations, source/domain distribution summaries, and
-  machine-readable snapshot counts.
+- Public metadata: model configurations, source/domain distribution summaries, wider
+  Markdown case cards, and machine-readable snapshot counts.
 - Human validation staging: 10 Chinese judgment rows and 80 public-exam rows.
 
 See `data/metadata/dataset_summary.json` for the machine-readable summary.
@@ -65,12 +65,14 @@ The public snapshot has two layers.
 
 English-language content previews:
 
+- `data/sample/preview_cases.md`
 - `data/sample/legalbenchpro_cn_judgments_sample.csv`
 - `data/sample/legalbenchpro_public_exam_sample.csv`
 
 These files show representative schema, task previews, reference-answer previews, and
-one example model-answer preview. Each CSV cell is capped at 180 characters for readable
-GitHub display. These samples are not sufficient for benchmarking models.
+one example model-answer preview. CSV cells are capped at 420 characters, while
+`preview_cases.md` presents the same sample rows as wider case cards for GitHub
+reading. These samples are not sufficient for benchmarking models.
 
 Summary metadata:
 

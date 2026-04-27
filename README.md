@@ -28,10 +28,10 @@ redistribution review are complete.
 
 The public snapshot includes 10 English-language preview rows from the Chinese
 real-case split, 20 preview rows from the public-exam split, model-configuration
-metadata, and compact source/domain distribution tables. Preview CSV cells are capped at
-180 characters so that GitHub's table view stays readable. The repository does not
-include the full prompt matrix, full reference answers, full model outputs, row-level
-full indexes, or human review sheets.
+metadata, compact source/domain distribution tables, and a wider Markdown case-card
+view for human review. Preview CSV cells are capped at 420 characters. The repository
+does not include the full prompt matrix, full reference answers, full model outputs,
+row-level full indexes, or human review sheets.
 
 ## Research Contribution
 
@@ -58,6 +58,7 @@ For a quick review of the project, start with:
 - `docs/ANNOTATION_PROTOCOL.md` for human-validation and scoring design;
 - `docs/AI_WORKFLOW.md` for auditability and AI-assistance safeguards;
 - `data/README.md` for a compact public data preview;
+- `data/sample/preview_cases.md` for wider sample-case cards;
 - `data/sample/legalbenchpro_cn_judgments_sample.csv` for real-case content excerpts;
 - `data/sample/legalbenchpro_public_exam_sample.csv` for public-exam content excerpts;
 - `data/metadata/source_distribution.csv` and `data/metadata/model_configurations.csv`
@@ -79,6 +80,7 @@ docs/
   MANUSCRIPT_STATUS.md                # What is complete and what remains
 data/
   README.md
+  sample/preview_cases.md
   sample/legalbenchpro_cn_judgments_sample.csv
   sample/legalbenchpro_public_exam_sample.csv
   metadata/dataset_summary.json
@@ -107,7 +109,7 @@ python .\scripts\extract_public_sample.py `
   --out-dir data `
   --cn-sample-size 10 `
   --bar-sample-size 20 `
-  --max-cell-chars 180
+  --max-cell-chars 420
 ```
 
 ## Validation

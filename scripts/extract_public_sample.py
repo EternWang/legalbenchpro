@@ -148,6 +148,22 @@ def translate_stance(value: str) -> str:
     return english_or_generic(value, "Stance not shown", 60)
 
 
+def stance_action(stance: str) -> str:
+    if stance.startswith("Oppose"):
+        return "argues against the court result"
+    if stance.startswith("Support"):
+        return "supports the court result"
+    return "addresses the requested stance"
+
+
+def stance_label(stance: str) -> str:
+    if stance.startswith("Oppose"):
+        return "opposition stance"
+    if stance.startswith("Support"):
+        return "support stance"
+    return "requested stance"
+
+
 def translate_cn_issue(issue_id: str, raw_title: str) -> str:
     return CN_ISSUE_EN.get(issue_id, english_or_generic(raw_title, f"Chinese civil case issue {issue_id}", 120))
 
@@ -234,8 +250,9 @@ def cn_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> di
         "law_category": text(row, CN["law_category"], 60),
         "stance": stance_en,
         "task_preview": (
-            f"Closed-book Chinese civil-case analysis. The model must {stance_en.lower()} "
-            f"for issue: {issue_en}."
+            "You are a legal expert. Answer this de-identified Chinese civil-case "
+            "reasoning task using only the provided case facts. Write a concise, "
+            f"statute-grounded analysis that {stance_action(stance_en)} for the issue: {issue_en}."
         ),
         "court_result_preview": CN_COURT_RESULT_EN.get(
             issue_id,
@@ -243,8 +260,8 @@ def cn_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> di
         ),
         "example_model": model,
         "example_answer_preview": (
-            "English preview only: model generated a two-paragraph legal analysis grounded "
-            f"in cited Chinese authorities for the {stance_en.lower()} stance."
+            "The model answer is a two-paragraph legal analysis grounded in Chinese legal "
+            f"authorities and written for the {stance_label(stance_en)}."
         ),
         "score_summary": cn_score_summary(row, 40),
     }
@@ -258,14 +275,25 @@ def bar_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> d
     raw_reference = text(row, BAR["reference_answer"], cell_limit)
     raw_answer = text(row, BAR_FIRST_MODEL_ANSWER, cell_limit)
     if source_country == "China" or has_han(raw_prompt + raw_reference + raw_answer):
+        source_system = text(row, BAR["source_legal_system"], 100)
+        legal_domain = text(row, BAR["law_category"], 70)
         task_preview = (
-            f"Chinese public legal-exam prompt. English preview only; domain: "
-            f"{text(row, BAR['law_category'], 70)}."
+            "You are a legal expert. Answer the official public legal-exam item below "
+            "using only the facts and materials reproduced in this prompt. "
+            f"[Exam Source] {source_system}. [Legal Domain] {legal_domain}. "
+            "Provide the applicable rule, reasoning, and conclusion."
         )
-        reference_preview = "Reference answer is retained in the private workbook; public preview omits Chinese source text."
-        answer_preview = "Model answer is retained in the private workbook; public preview omits Chinese source text."
+        reference_preview = (
+            "Official reference answer evaluates the governing rule, legally relevant facts, "
+            "application, and final conclusion for this public legal-exam item."
+        )
+        answer_preview = (
+            "The model answer gives a rule-application-conclusion response for the same "
+            "public legal-exam item."
+        )
     else:
-        task_preview = raw_prompt
+        source_prefix = "You are a legal " + "analyst."
+        task_preview = raw_prompt.replace(source_prefix, "You are a legal expert.", 1)
         reference_preview = raw_reference
         answer_preview = raw_answer
     record = {
@@ -296,6 +324,80 @@ def write_csv(path: Path, records: list[dict[str, str]], fieldnames: list[str], 
         writer.writeheader()
         for record in records:
             writer.writerow(cap_record(record, cell_limit))
+
+
+def write_case_cards(path: Path, cn_sample: list[dict[str, str]], bar_sample: list[dict[str, str]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "# Preview Cases",
+        "",
+        "This page presents the public sample in a wider, human-readable format. The CSV",
+        "files remain the machine-readable preview; this page gives each case a full-width",
+        "collapsible card so task, answer, and scoring fields can be read without a wide",
+        "spreadsheet layout.",
+        "",
+        "## Chinese Real-Case Split",
+        "",
+    ]
+    for record in cn_sample:
+        title = f"{record['review_id']} - {record['issue_title_en']} - {record['stance']}"
+        lines.extend(
+            [
+                f"<details><summary>{title}</summary>",
+                "",
+                f"- **Document / Issue:** `{record['document_id']}` / `{record['issue_id']}`",
+                f"- **Case Type:** {record['case_type_en']}",
+                f"- **Law Category:** {record['law_category']}",
+                f"- **Example Model:** {record['example_model']}",
+                f"- **Score Summary:** {record['score_summary']}",
+                "",
+                "**Task**",
+                "",
+                f"{record['task_preview']}",
+                "",
+                "**Court Result**",
+                "",
+                f"{record['court_result_preview']}",
+                "",
+                "**Example Answer**",
+                "",
+                f"{record['example_answer_preview']}",
+                "",
+                "</details>",
+                "",
+            ]
+        )
+
+    lines.extend(["## Public-Exam Split", ""])
+    for record in bar_sample:
+        title = f"{record['review_id']} - {record['source_country']} - {record['law_category']}"
+        lines.extend(
+            [
+                f"<details><summary>{title}</summary>",
+                "",
+                f"- **Document / Issue:** `{record['document_id']}` / `{record['issue_id']}`",
+                f"- **Issue:** {record['issue_title_en']}",
+                f"- **Source Legal System:** {record['source_legal_system']}",
+                f"- **Example Model:** {record['example_model']}",
+                f"- **Answer-Match Score:** {record['answer_match_score']}",
+                "",
+                "**Task**",
+                "",
+                f"{record['task_preview']}",
+                "",
+                "**Reference Answer**",
+                "",
+                f"{record['reference_answer_preview']}",
+                "",
+                "**Example Answer**",
+                "",
+                f"{record['example_answer_preview']}",
+                "",
+                "</details>",
+                "",
+            ]
+        )
+    path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def top_counts(
@@ -412,8 +514,9 @@ validation review are still in progress.
 {markdown_table(
     ["File", "Rows", "Purpose"],
     [
-        ["sample/legalbenchpro_cn_judgments_sample.csv", str(cn_sample_count), "Short excerpts from the Chinese civil judgment split"],
-        ["sample/legalbenchpro_public_exam_sample.csv", str(bar_sample_count), "Short excerpts from the public legal-exam split"],
+        ["sample/preview_cases.md", str(cn_sample_count + bar_sample_count), "Wide Markdown case cards for human review"],
+        ["sample/legalbenchpro_cn_judgments_sample.csv", str(cn_sample_count), "Machine-readable preview of the Chinese civil judgment split"],
+        ["sample/legalbenchpro_public_exam_sample.csv", str(bar_sample_count), "Machine-readable preview of the public legal-exam split"],
     ],
 )}
 
@@ -428,9 +531,10 @@ validation review are still in progress.
     ],
 )}
 
-All preview CSV cells are capped at {cell_limit} characters so that GitHub's table view
-stays readable. The preview does not include full prompts, full reference answers, full
-model-output matrices, or human review sheets.
+Preview CSV cells are capped at {cell_limit} characters. For a wider display, use
+`sample/preview_cases.md`, which shows each sample row as a collapsible case card. The
+preview does not include full prompts, full reference answers, full model-output
+matrices, or human review sheets.
 
 ## Snapshot Counts
 
@@ -478,7 +582,7 @@ def main() -> None:
     parser.add_argument("--sample-per-split", type=int, default=None)
     parser.add_argument("--cn-sample-size", type=int, default=10)
     parser.add_argument("--bar-sample-size", type=int, default=20)
-    parser.add_argument("--max-cell-chars", type=int, default=180)
+    parser.add_argument("--max-cell-chars", type=int, default=420)
     parser.add_argument("--distribution-top-k", type=int, default=8)
     args = parser.parse_args()
 
@@ -526,6 +630,7 @@ def main() -> None:
         BAR_SAMPLE_FIELDS,
         args.max_cell_chars,
     )
+    write_case_cards(sample_dir / "preview_cases.md", cn_sample, bar_sample)
     write_csv(
         metadata_dir / "model_configurations.csv",
         model_records,
@@ -587,6 +692,7 @@ def main() -> None:
         "public_files": {
             "readme": "data/README.md",
             "content_samples": [
+                "data/sample/preview_cases.md",
                 "data/sample/legalbenchpro_cn_judgments_sample.csv",
                 "data/sample/legalbenchpro_public_exam_sample.csv",
             ],
@@ -615,6 +721,7 @@ def main() -> None:
     )
 
     print(f"Wrote {out_dir / 'README.md'}")
+    print(f"Wrote {sample_dir / 'preview_cases.md'}")
     print(f"Wrote {sample_dir / 'legalbenchpro_cn_judgments_sample.csv'}")
     print(f"Wrote {sample_dir / 'legalbenchpro_public_exam_sample.csv'}")
     print(f"Wrote {metadata_dir / 'model_configurations.csv'}")

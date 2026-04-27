@@ -8,8 +8,9 @@ validation review are still in progress.
 
 | File | Rows | Purpose |
 | --- | --- | --- |
-| sample/legalbenchpro_cn_judgments_sample.csv | 10 | Short excerpts from the Chinese civil judgment split |
-| sample/legalbenchpro_public_exam_sample.csv | 20 | Short excerpts from the public legal-exam split |
+| sample/preview_cases.md | 30 | Wide Markdown case cards for human review |
+| sample/legalbenchpro_cn_judgments_sample.csv | 10 | Machine-readable preview of the Chinese civil judgment split |
+| sample/legalbenchpro_public_exam_sample.csv | 20 | Machine-readable preview of the public legal-exam split |
 
 ## Summary Metadata Files
 
@@ -19,9 +20,10 @@ validation review are still in progress.
 | metadata/source_distribution.csv | 55 | Top source, law-category, and case-type counts |
 | metadata/dataset_summary.json | 1 | Machine-readable snapshot summary |
 
-All preview CSV cells are capped at 180 characters so that GitHub's table view
-stays readable. The preview does not include full prompts, full reference answers, full
-model-output matrices, or human review sheets.
+Preview CSV cells are capped at 420 characters. For a wider display, use
+`sample/preview_cases.md`, which shows each sample row as a collapsible case card. The
+preview does not include full prompts, full reference answers, full model-output
+matrices, or human review sheets.
 
 ## Snapshot Counts
 
