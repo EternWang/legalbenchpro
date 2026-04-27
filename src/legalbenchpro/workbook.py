@@ -21,7 +21,7 @@ def detect_model_headers(
     first_header_row: Iterable[Any],
     second_header_row: Iterable[Any] | None = None,
 ) -> list[str]:
-    answer_markers = ("AI Answer", "AI回答", "Model Answer")
+    answer_markers = ("AI Answer", "Model Answer", "AI")
     models: list[str] = []
     second_values = list(second_header_row or [])
     for index, value in enumerate(first_header_row):
@@ -33,7 +33,7 @@ def detect_model_headers(
                 paired_header = str(second_values[index] or "") if index < len(second_values) else ""
                 if not any(marker in paired_header for marker in answer_markers):
                     continue
-            elif "Sample" in name or "Info" in name or "基础信息" in name:
+            elif "Sample" in name or "Info" in name:
                 continue
             if name:
                 models.append(name)

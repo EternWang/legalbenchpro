@@ -1,11 +1,11 @@
 ﻿split,dimension,value,count
-real_case_cn,case_type,医疗损害责任纠纷,50
-real_case_cn,case_type,买卖合同纠纷,6
-real_case_cn,case_type,机动车交通事故责任纠纷,6
-real_case_cn,case_type,房屋买卖合同纠纷,4
-real_case_cn,case_type,承揽 / 供货安装合同纠纷,4
-real_case_cn,case_type,生命权、身体权、健康权纠纷,4
-real_case_cn,case_type,排除妨害纠纷,2
+real_case_cn,case_type,Medical malpractice liability dispute,50
+real_case_cn,case_type,Motor vehicle accident liability dispute,6
+real_case_cn,case_type,Sales contract dispute,6
+real_case_cn,case_type,"Life, bodily integrity, and health-rights dispute",4
+real_case_cn,case_type,Real-estate sales contract dispute,4
+real_case_cn,case_type,Work/service and supply-installation contract dispute,4
+real_case_cn,case_type,Removal-of-obstruction dispute,2
 real_case_cn,law_category,Tort,60
 real_case_cn,law_category,Contract,10
 real_case_cn,law_category,Property,6
@@ -16,8 +16,8 @@ real_case_cn,law_category_detail,Personal Injury,4
 real_case_cn,law_category_detail,Real Estate Sale Contract,4
 real_case_cn,law_category_detail,Service / Work Contract,4
 real_case_cn,law_category_detail,Nuisance / Removal of Obstruction,2
-real_case_cn,stance,反对法院判决,38
-real_case_cn,stance,支持法院判决,38
+real_case_cn,stance,Oppose court result,38
+real_case_cn,stance,Support court result,38
 public_exam,source_country,United States,604
 public_exam,source_country,China,100
 public_exam,source_country,United Kingdom,86

@@ -12,12 +12,12 @@ class WorkbookHelperTests(unittest.TestCase):
 
     def test_detect_model_headers_excludes_sheet_group_labels(self) -> None:
         headers = [
-            "External Sample 基础信息",
+            "External Sample Basic Info",
             None,
             "Grok 4.20",
             None,
             "DeepSeek R1",
-            "案件基础信息",
+            "Case Basic Info",
             "Codex 5.4",
         ]
         subheaders = [

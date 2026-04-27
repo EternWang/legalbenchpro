@@ -26,11 +26,12 @@ redistribution review are complete.
 | Model configurations | 22 | Standard, reasoning-enabled, and step-by-step prompting modes |
 | Human validation pilots | 10 real-case rows; 80 public-exam rows | Staged for reviewer calibration and agreement analysis |
 
-The public snapshot includes 10 excerpted Chinese real-case rows, 20 excerpted
-public-exam rows, model-configuration metadata, and compact source/domain distribution
-tables. Preview CSV cells are capped at 180 characters so that GitHub's table view stays
-readable. The repository does not include the full prompt matrix, full reference
-answers, full model outputs, row-level full indexes, or human review sheets.
+The public snapshot includes 10 English-language preview rows from the Chinese
+real-case split, 20 preview rows from the public-exam split, model-configuration
+metadata, and compact source/domain distribution tables. Preview CSV cells are capped at
+180 characters so that GitHub's table view stays readable. The repository does not
+include the full prompt matrix, full reference answers, full model outputs, row-level
+full indexes, or human review sheets.
 
 ## Research Contribution
 

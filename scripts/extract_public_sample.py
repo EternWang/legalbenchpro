@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 from collections import Counter, OrderedDict
 from pathlib import Path
 from urllib.parse import urlparse
@@ -51,14 +52,14 @@ CN_SAMPLE_FIELDS = [
     "review_id",
     "document_id",
     "issue_id",
-    "issue_title",
-    "case_type",
+    "issue_title_en",
+    "case_type_en",
     "law_category",
     "stance",
-    "prompt_excerpt",
-    "core_issue_excerpt",
+    "task_preview",
+    "court_result_preview",
     "example_model",
-    "example_answer_excerpt",
+    "example_answer_preview",
     "score_summary",
 ]
 
@@ -66,16 +67,48 @@ BAR_SAMPLE_FIELDS = [
     "review_id",
     "document_id",
     "issue_id",
-    "issue_title",
+    "issue_title_en",
     "source_country",
     "source_legal_system",
     "law_category",
-    "prompt_excerpt",
-    "reference_answer_excerpt",
+    "task_preview",
+    "reference_answer_preview",
     "example_model",
-    "example_answer_excerpt",
+    "example_answer_preview",
     "answer_match_score",
 ]
+
+CN_DETAIL_TO_CASE_TYPE_EN = {
+    "Medical Malpractice": "Medical malpractice liability dispute",
+    "Motor Vehicle Accident": "Motor vehicle accident liability dispute",
+    "Nuisance / Removal of Obstruction": "Removal-of-obstruction dispute",
+    "Personal Injury": "Life, bodily integrity, and health-rights dispute",
+    "Real Estate Sale Contract": "Real-estate sales contract dispute",
+    "Sales Contract": "Sales contract dispute",
+    "Service / Work Contract": "Work/service and supply-installation contract dispute",
+}
+
+CN_ISSUE_EN = {
+    "CASE-001-I01": "Whether the buyer's payment obligation was triggered after equipment acceptance",
+    "CASE-001-I02": "How the overdue-payment liquidated-damages rate should be evaluated",
+    "CASE-001-I03": "Whether liquidated damages should be calculated by payment milestone or by total price",
+    "CASE-002-I01": "Whether objections by two hospitals required a renewed expert appraisal",
+    "CASE-006-I01": "Whether elevator-installation participants may remove obstruction despite voting defects",
+    "CASE-007-I01": "Whether claims for remaining supply-installation payments were time-barred",
+    "CASE-011-I01": "Whether the court should order continued property-transfer registration",
+}
+
+CN_COURT_RESULT_EN = {
+    "CASE-001-I01": "Court result: payment obligations were triggered after delivery, acceptance/use records, and no timely quality objection.",
+    "CASE-001-I02": "Court result: the contract's high liquidated-damages rate was reduced rather than applied mechanically.",
+    "CASE-001-I03": "Court result: liquidated damages should be calculated by separate payment milestones rather than the total contract price.",
+    "CASE-002-I01": "Court result: written objections by hospitals did not require reopening the appraisal procedure.",
+    "CASE-006-I01": "Court result: voting defects did not by themselves defeat the elevator plan, and obstruction could be removed.",
+    "CASE-007-I01": "Court result: the supplier's remaining-payment and additional-cost claims were time-barred.",
+    "CASE-011-I01": "Court result: the seller was ordered to continue performance and assist with property-transfer registration.",
+}
+
+HAN_RE = re.compile(r"[\u3400-\u9fff]")
 
 
 def cell(row: tuple[object, ...], index: int) -> object:
@@ -84,6 +117,46 @@ def cell(row: tuple[object, ...], index: int) -> object:
 
 def text(row: tuple[object, ...], index: int, limit: int) -> str:
     return clip_text(cell(row, index), limit)
+
+
+def has_han(value: str) -> bool:
+    return bool(HAN_RE.search(value))
+
+
+def english_or_generic(value: str, fallback: str, limit: int) -> str:
+    if not value or has_han(value):
+        return clip_text(fallback, limit)
+    return clip_text(value, limit)
+
+
+def safe_identifier(value: str, fallback: str, limit: int) -> str:
+    if not value or has_han(value):
+        return clip_text(fallback, limit)
+    return clip_text(value, limit)
+
+
+def cn_case_type_en(row: tuple[object, ...]) -> str:
+    detail = text(row, CN["law_category_detail"], 100)
+    return CN_DETAIL_TO_CASE_TYPE_EN.get(detail, f"{detail} dispute" if detail else "Chinese civil dispute")
+
+
+def translate_stance(value: str) -> str:
+    if "\u53cd" in value:
+        return "Oppose court result"
+    if "\u652f\u6301" in value:
+        return "Support court result"
+    return english_or_generic(value, "Stance not shown", 60)
+
+
+def translate_cn_issue(issue_id: str, raw_title: str) -> str:
+    return CN_ISSUE_EN.get(issue_id, english_or_generic(raw_title, f"Chinese civil case issue {issue_id}", 120))
+
+
+def public_exam_issue_preview(row: tuple[object, ...], limit: int) -> str:
+    raw_title = text(row, BAR["issue_title"], limit)
+    if not has_han(raw_title):
+        return raw_title
+    return clip_text(f"Chinese public legal-exam item in {text(row, BAR['law_category'], 80)}", limit)
 
 
 def nonempty(row: tuple[object, ...]) -> bool:
@@ -147,36 +220,70 @@ def cn_score_summary(row: tuple[object, ...], limit: int) -> str:
 
 
 def cn_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> dict[str, str]:
+    issue_id = text(row, CN["issue_id"], 50)
+    stance = text(row, CN["stance"], 60)
+    issue_en = translate_cn_issue(issue_id, text(row, CN["issue_title"], 120))
+    case_type_en = cn_case_type_en(row)
+    stance_en = translate_stance(stance)
     record = {
         "review_id": text(row, CN["review_id"], 40),
         "document_id": text(row, CN["document_id"], 40),
-        "issue_id": text(row, CN["issue_id"], 50),
-        "issue_title": text(row, CN["issue_title"], 90),
-        "case_type": text(row, CN["case_type"], 70),
+        "issue_id": issue_id,
+        "issue_title_en": issue_en,
+        "case_type_en": case_type_en,
         "law_category": text(row, CN["law_category"], 60),
-        "stance": text(row, CN["stance"], 40),
-        "prompt_excerpt": text(row, CN["prompt"], cell_limit),
-        "core_issue_excerpt": text(row, CN["core_issue"], cell_limit),
+        "stance": stance_en,
+        "task_preview": (
+            f"Closed-book Chinese civil-case analysis. The model must {stance_en.lower()} "
+            f"for issue: {issue_en}."
+        ),
+        "court_result_preview": CN_COURT_RESULT_EN.get(
+            issue_id,
+            f"Court-result preview withheld for de-identification review; issue category: {case_type_en}.",
+        ),
         "example_model": model,
-        "example_answer_excerpt": text(row, CN_FIRST_MODEL_ANSWER, cell_limit),
+        "example_answer_preview": (
+            "English preview only: model generated a two-paragraph legal analysis grounded "
+            f"in cited Chinese authorities for the {stance_en.lower()} stance."
+        ),
         "score_summary": cn_score_summary(row, 40),
     }
     return cap_record(record, cell_limit)
 
 
 def bar_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> dict[str, str]:
+    source_country = text(row, BAR["source_country"], 50)
+    issue_title = public_exam_issue_preview(row, 100)
+    raw_prompt = text(row, BAR["prompt"], cell_limit)
+    raw_reference = text(row, BAR["reference_answer"], cell_limit)
+    raw_answer = text(row, BAR_FIRST_MODEL_ANSWER, cell_limit)
+    if source_country == "China" or has_han(raw_prompt + raw_reference + raw_answer):
+        task_preview = (
+            f"Chinese public legal-exam prompt. English preview only; domain: "
+            f"{text(row, BAR['law_category'], 70)}."
+        )
+        reference_preview = "Reference answer is retained in the private workbook; public preview omits Chinese source text."
+        answer_preview = "Model answer is retained in the private workbook; public preview omits Chinese source text."
+    else:
+        task_preview = raw_prompt
+        reference_preview = raw_reference
+        answer_preview = raw_answer
     record = {
         "review_id": text(row, BAR["review_id"], 40),
-        "document_id": text(row, BAR["document_id"], 40),
+        "document_id": safe_identifier(
+            text(row, BAR["document_id"], 80),
+            f"CN-public-exam-{text(row, BAR['review_id'], 40)}",
+            80,
+        ),
         "issue_id": text(row, BAR["issue_id"], 50),
-        "issue_title": text(row, BAR["issue_title"], 90),
-        "source_country": text(row, BAR["source_country"], 50),
+        "issue_title_en": issue_title,
+        "source_country": source_country,
         "source_legal_system": text(row, BAR["source_legal_system"], 100),
         "law_category": text(row, BAR["law_category"], 70),
-        "prompt_excerpt": text(row, BAR["prompt"], cell_limit),
-        "reference_answer_excerpt": text(row, BAR["reference_answer"], cell_limit),
+        "task_preview": task_preview,
+        "reference_answer_preview": reference_preview,
         "example_model": model,
-        "example_answer_excerpt": text(row, BAR_FIRST_MODEL_ANSWER, cell_limit),
+        "example_answer_preview": answer_preview,
         "answer_match_score": text(row, BAR_FIRST_MODEL_SCORE, 30),
     }
     return cap_record(record, cell_limit)
@@ -200,7 +307,15 @@ def top_counts(
     top_k: int,
     cell_limit: int,
 ) -> list[dict[str, str]]:
-    counts = Counter(text(row, index, cell_limit) or "Unknown" for row in rows)
+    def normalized_value(row: tuple[object, ...]) -> str:
+        value = text(row, index, cell_limit) or "Unknown"
+        if split == "real_case_cn" and dimension == "case_type":
+            return CN_DETAIL_TO_CASE_TYPE_EN.get(value, f"{value} dispute")
+        if split == "real_case_cn" and dimension == "stance":
+            return translate_stance(value)
+        return value
+
+    counts = Counter(normalized_value(row) for row in rows)
     return [
         {
             "split": split,
@@ -278,6 +393,13 @@ def write_data_readme(
         for item in distribution_rows
         if item["split"] == "public_exam" and item["dimension"] == "law_category"
     ]
+    top_bar_law_sum = sum(int(count) for _value, count in bar_law_rows)
+    bar_law_summary_rows = [
+        ["Top legal domains listed in source_distribution.csv", str(top_bar_law_sum)],
+        ["Other legal domains", str(len(bar_rows) - top_bar_law_sum)],
+        ["Total public-exam instances", str(len(bar_rows))],
+    ]
+    bar_law_preview_rows = bar_law_rows[:4]
 
     content = f"""# Data Preview
 
@@ -285,13 +407,21 @@ This folder contains a compact public preview of LegalBenchPro. The full workboo
 not included in the repository while licensing, privacy, redistribution, and human
 validation review are still in progress.
 
-## What Is Public
+## Content Preview Files
 
 {markdown_table(
     ["File", "Rows", "Purpose"],
     [
         ["sample/legalbenchpro_cn_judgments_sample.csv", str(cn_sample_count), "Short excerpts from the Chinese civil judgment split"],
         ["sample/legalbenchpro_public_exam_sample.csv", str(bar_sample_count), "Short excerpts from the public legal-exam split"],
+    ],
+)}
+
+## Summary Metadata Files
+
+{markdown_table(
+    ["File", "Rows", "Purpose"],
+    [
         ["metadata/model_configurations.csv", str(model_count), "Model names and workbook sheet coverage"],
         ["metadata/source_distribution.csv", str(len(distribution_rows)), "Top source, law-category, and case-type counts"],
         ["metadata/dataset_summary.json", "1", "Machine-readable snapshot summary"],
@@ -322,9 +452,16 @@ model-output matrices, or human review sheets.
 
 {markdown_table(["Case type", "Rows"], cn_case_rows)}
 
-## Public-Exam Legal Domains
+## Public-Exam Legal Domain Summary
 
-{markdown_table(["Law category", "Rows"], bar_law_rows)}
+The repository preview intentionally shows only the top legal-domain counts. The
+summary below explains why the visible top-domain rows do not add up to 868.
+
+{markdown_table(["Group", "Rows"], bar_law_summary_rows)}
+
+Top examples:
+
+{markdown_table(["Law category", "Rows"], bar_law_preview_rows)}
 
 ## Release Note
 
@@ -397,7 +534,7 @@ def main() -> None:
     )
 
     distributions = (
-        top_counts("real_case_cn", "case_type", cn_rows, CN["case_type"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        top_counts("real_case_cn", "case_type", cn_rows, CN["law_category_detail"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
         + top_counts("real_case_cn", "law_category", cn_rows, CN["law_category"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
         + top_counts("real_case_cn", "law_category_detail", cn_rows, CN["law_category_detail"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
         + top_counts("real_case_cn", "stance", cn_rows, CN["stance"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)

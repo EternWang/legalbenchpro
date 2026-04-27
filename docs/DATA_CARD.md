@@ -18,7 +18,8 @@ The committed metadata file reports counts extracted from the local workbook:
 - Chinese real-case split: 76 issue-stance prompts.
 - Public-exam split: 868 instances.
 - Model configurations: 22 in the main multimodel sheets.
-- Public content previews: 10 Chinese real-case rows and 20 public-exam rows.
+- Public content previews: 10 English-language Chinese real-case preview rows and 20
+  public-exam preview rows.
 - Public metadata: model configurations, source/domain distribution summaries, and
   machine-readable snapshot counts.
 - Human validation staging: 10 Chinese judgment rows and 80 public-exam rows.
@@ -62,14 +63,14 @@ Key fields include:
 
 The public snapshot has two layers.
 
-Content excerpts:
+English-language content previews:
 
 - `data/sample/legalbenchpro_cn_judgments_sample.csv`
 - `data/sample/legalbenchpro_public_exam_sample.csv`
 
-These files show representative schema, prompt excerpts, reference excerpts, and one
-example model-answer excerpt. Each CSV cell is capped at 180 characters for readable
-GitHub preview. These samples are not sufficient for benchmarking models.
+These files show representative schema, task previews, reference-answer previews, and
+one example model-answer preview. Each CSV cell is capped at 180 characters for readable
+GitHub display. These samples are not sufficient for benchmarking models.
 
 Summary metadata:
 

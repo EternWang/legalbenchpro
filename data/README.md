@@ -4,12 +4,17 @@ This folder contains a compact public preview of LegalBenchPro. The full workboo
 not included in the repository while licensing, privacy, redistribution, and human
 validation review are still in progress.
 
-## What Is Public
+## Content Preview Files
 
 | File | Rows | Purpose |
 | --- | --- | --- |
 | sample/legalbenchpro_cn_judgments_sample.csv | 10 | Short excerpts from the Chinese civil judgment split |
 | sample/legalbenchpro_public_exam_sample.csv | 20 | Short excerpts from the public legal-exam split |
+
+## Summary Metadata Files
+
+| File | Rows | Purpose |
+| --- | --- | --- |
 | metadata/model_configurations.csv | 22 | Model names and workbook sheet coverage |
 | metadata/source_distribution.csv | 55 | Top source, law-category, and case-type counts |
 | metadata/dataset_summary.json | 1 | Machine-readable snapshot summary |
@@ -40,15 +45,26 @@ model-output matrices, or human review sheets.
 
 | Case type | Rows |
 | --- | --- |
-| 医疗损害责任纠纷 | 50 |
-| 买卖合同纠纷 | 6 |
-| 机动车交通事故责任纠纷 | 6 |
-| 房屋买卖合同纠纷 | 4 |
-| 承揽 / 供货安装合同纠纷 | 4 |
-| 生命权、身体权、健康权纠纷 | 4 |
-| 排除妨害纠纷 | 2 |
+| Medical malpractice liability dispute | 50 |
+| Motor vehicle accident liability dispute | 6 |
+| Sales contract dispute | 6 |
+| Life, bodily integrity, and health-rights dispute | 4 |
+| Real-estate sales contract dispute | 4 |
+| Work/service and supply-installation contract dispute | 4 |
+| Removal-of-obstruction dispute | 2 |
 
-## Public-Exam Legal Domains
+## Public-Exam Legal Domain Summary
+
+The repository preview intentionally shows only the top legal-domain counts. The
+summary below explains why the visible top-domain rows do not add up to 868.
+
+| Group | Rows |
+| --- | --- |
+| Top legal domains listed in source_distribution.csv | 687 |
+| Other legal domains | 181 |
+| Total public-exam instances | 868 |
+
+Top examples:
 
 | Law category | Rows |
 | --- | --- |
@@ -56,10 +72,6 @@ model-output matrices, or human review sheets.
 | Business Organizations / Agency | 126 |
 | Foundations of Legal Knowledge | 68 |
 | Secured Transactions / Commercial Law | 67 |
-| Succession / Trusts / Estates | 61 |
-| Family | 58 |
-| Professional Responsibility / Legal Ethics | 38 |
-| Civil Procedure | 26 |
 
 ## Release Note
 
