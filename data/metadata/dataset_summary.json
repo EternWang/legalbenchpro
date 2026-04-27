@@ -1,17 +1,12 @@
 ﻿{
   "source_workbook_name": "Data Set.xlsx",
-  "release_status": "public sample only; full workbook is private/local until licensing review",
+  "release_status": "expanded public sample plus metadata indexes; full workbook is private/local until licensing review",
   "sheets": [
     {
       "title": "Rubric",
       "data_rows_after_two_header_rows": 33,
-      "model_count_detected": 4,
-      "model_names_detected": [
-        "分类",
-        "分值/关键词",
-        "中文说明",
-        "审核备注"
-      ]
+      "model_count_detected": 0,
+      "model_names_detected": []
     },
     {
       "title": "CN_Judgments_Multimodel",
@@ -133,7 +128,24 @@
   "public_snapshot_counts": {
     "cn_real_case_issue_stance_prompts": 76,
     "public_exam_instances": 868,
+    "cn_public_sample_rows": 24,
+    "public_exam_sample_rows": 80,
+    "cn_public_index_rows": 76,
+    "public_exam_index_rows": 868,
     "human_cn_pilot_rows": 10,
     "human_bar_pilot_rows": 80
+  },
+  "public_files": {
+    "content_samples": [
+      "data/sample/legalbenchpro_cn_judgments_sample.csv",
+      "data/sample/legalbenchpro_public_exam_sample.csv",
+      "data/sample/legalbenchpro_public_sample.csv"
+    ],
+    "metadata_indexes": [
+      "data/metadata/cn_judgments_index.csv",
+      "data/metadata/public_exam_index.csv",
+      "data/metadata/model_configurations.csv",
+      "data/metadata/source_distribution.csv"
+    ]
   }
 }

@@ -20,8 +20,17 @@ class WorkbookHelperTests(unittest.TestCase):
             "案件基础信息",
             "Codex 5.4",
         ]
+        subheaders = [
+            "Review ID",
+            "Document ID",
+            "AI Answer (Two Paragraphs)",
+            "Answer Match Score (0-4)",
+            "AI Answer (Two Paragraphs)",
+            "review_id",
+            "AI Answer (Two Paragraphs)",
+        ]
         self.assertEqual(
-            detect_model_headers(headers),
+            detect_model_headers(headers, subheaders),
             ["Grok 4.20", "DeepSeek R1", "Codex 5.4"],
         )
 

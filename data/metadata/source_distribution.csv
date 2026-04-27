@@ -1,0 +1,96 @@
+﻿split,dimension,value,count
+real_case_cn,case_type,医疗损害责任纠纷,50
+real_case_cn,case_type,买卖合同纠纷,6
+real_case_cn,case_type,机动车交通事故责任纠纷,6
+real_case_cn,case_type,房屋买卖合同纠纷,4
+real_case_cn,case_type,承揽 / 供货安装合同纠纷,4
+real_case_cn,case_type,生命权、身体权、健康权纠纷,4
+real_case_cn,case_type,排除妨害纠纷,2
+real_case_cn,law_category,Tort,60
+real_case_cn,law_category,Contract,10
+real_case_cn,law_category,Property,6
+real_case_cn,law_category_detail,Medical Malpractice,50
+real_case_cn,law_category_detail,Motor Vehicle Accident,6
+real_case_cn,law_category_detail,Sales Contract,6
+real_case_cn,law_category_detail,Personal Injury,4
+real_case_cn,law_category_detail,Real Estate Sale Contract,4
+real_case_cn,law_category_detail,Service / Work Contract,4
+real_case_cn,law_category_detail,Nuisance / Removal of Obstruction,2
+real_case_cn,stance,反对法院判决,38
+real_case_cn,stance,支持法院判决,38
+public_exam,source_country,United States,604
+public_exam,source_country,China,100
+public_exam,source_country,United Kingdom,86
+public_exam,source_country,Australia,78
+public_exam,source_legal_system,Virginia / United States bar exam law,183
+public_exam,source_legal_system,New York bar exam / NCBE MEE reprint,102
+public_exam,source_legal_system,California Bar Examination / general U.S. law unless specified,100
+public_exam,source_legal_system,People's Republic of China,100
+public_exam,source_legal_system,England and Wales,80
+public_exam,source_legal_system,Maryland UBE law,75
+public_exam,source_legal_system,Georgia bar exam law,70
+public_exam,source_legal_system,Victoria / Australia bar entrance exam law,70
+public_exam,source_legal_system,Uniform Bar Examination / generally accepted U.S. law,57
+public_exam,source_legal_system,California Bar Examination / fictional State of Columbia authorities,17
+public_exam,source_legal_system,Victoria / Australia law,8
+public_exam,source_legal_system,England and Wales law,6
+public_exam,law_category,Tort,243
+public_exam,law_category,Business Organizations / Agency,126
+public_exam,law_category,Foundations of Legal Knowledge,68
+public_exam,law_category,Secured Transactions / Commercial Law,67
+public_exam,law_category,Succession / Trusts / Estates,61
+public_exam,law_category,Family,58
+public_exam,law_category,Professional Responsibility / Legal Ethics,38
+public_exam,law_category,Civil Procedure,26
+public_exam,law_category,Commercial / Company Law,23
+public_exam,law_category,Criminal Procedure,23
+public_exam,law_category,Civil / Civil Procedure,22
+public_exam,law_category,Administrative Law,21
+public_exam,law_category,Constitutional / Public Law,18
+public_exam,law_category,Criminal Law,16
+public_exam,law_category,Criminal,15
+public_exam,law_category,Property,12
+public_exam,law_category,Evidence,10
+public_exam,law_category,Contract Law,8
+public_exam,law_category,Contract,4
+public_exam,law_category,European Union Law,4
+public_exam,law_category,Employment / Labor,2
+public_exam,law_category,Administrative / Regulatory,1
+public_exam,law_category,Civil Law,1
+public_exam,law_category,Remedies / Equity,1
+public_exam,law_category_detail,Entity Governance / Agency,124
+public_exam,law_category_detail,Medical Malpractice,116
+public_exam,law_category_detail,UCC / Secured Transactions,67
+public_exam,law_category_detail,Motor Vehicle Accident,64
+public_exam,law_category_detail,Wills / Trusts / Estates,61
+public_exam,law_category_detail,Family / Domestic Relations,58
+public_exam,law_category_detail,FLK2,45
+public_exam,law_category_detail,Negligence / Personal Injury,40
+public_exam,law_category_detail,Lawyer / Barrister Ethics,38
+public_exam,law_category_detail,Civil Procedure,25
+public_exam,law_category_detail,FLK1,23
+public_exam,law_category_detail,商法,23
+public_exam,law_category_detail,民法与民诉法,22
+public_exam,law_category_detail,Defamation / Reputation,21
+public_exam,law_category_detail,行政法,21
+public_exam,law_category_detail,Constitutional Law,18
+public_exam,law_category_detail,刑法,16
+public_exam,law_category_detail,Substantive Criminal Law,15
+public_exam,law_category_detail,Real Property,12
+public_exam,law_category_detail,Evidence,10
+public_exam,law_category_detail,刑事诉讼法,10
+public_exam,law_category_detail,CILEX Level 6 Unit 2,8
+public_exam,law_category_detail,Criminal Procedure,6
+public_exam,law_category_detail,刑诉法,6
+public_exam,law_category_detail,CILEX Level 6 Unit 6,4
+public_exam,law_category_detail,Contract / Arbitration,4
+public_exam,law_category_detail,Employment / Labor,2
+public_exam,law_category_detail,Administrative / Regulatory,1
+public_exam,law_category_detail,Border Search / Suppression,1
+public_exam,law_category_detail,Corporate Governance,1
+public_exam,law_category_detail,Negligence / Strict Liability,1
+public_exam,law_category_detail,Nuisance / Trespass,1
+public_exam,law_category_detail,Partnership,1
+public_exam,law_category_detail,Remedies / Equity,1
+public_exam,law_category_detail,民事诉讼法,1
+public_exam,law_category_detail,民法,1

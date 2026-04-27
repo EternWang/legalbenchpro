@@ -18,6 +18,8 @@ The committed metadata file reports counts extracted from the local workbook:
 - Chinese real-case split: 76 issue-stance prompts.
 - Public-exam split: 868 instances.
 - Model configurations: 22 in the main multimodel sheets.
+- Public content samples: 24 Chinese real-case rows and 80 public-exam rows.
+- Public metadata indexes: 76 Chinese real-case rows and 868 public-exam rows.
 - Human validation staging: 10 Chinese judgment rows and 80 public-exam rows.
 
 See `data/metadata/dataset_summary.json` for the machine-readable summary.
@@ -55,11 +57,29 @@ Key fields include:
 - law category and detail;
 - model answer and answer-match score.
 
-## Public Sample
+## Public Snapshot
 
-`data/sample/legalbenchpro_public_sample.csv` contains a small, truncated sample from
-both splits. It is intended to show schema and workflow only. It is not sufficient for
-benchmarking models.
+The public snapshot has two layers.
+
+Content excerpts:
+
+- `data/sample/legalbenchpro_cn_judgments_sample.csv`
+- `data/sample/legalbenchpro_public_exam_sample.csv`
+- `data/sample/legalbenchpro_public_sample.csv`
+
+These files show representative schema, prompt excerpts, reference excerpts, and one
+example model-answer excerpt. They are not sufficient for benchmarking models.
+
+Metadata indexes:
+
+- `data/metadata/cn_judgments_index.csv`
+- `data/metadata/public_exam_index.csv`
+- `data/metadata/model_configurations.csv`
+- `data/metadata/source_distribution.csv`
+
+These files expose row-level coverage, source/legal-system structure, law-category
+coverage, and model configurations without publishing the full prompt matrix, full
+reference answers, complete model outputs, or human review sheets.
 
 ## Full Data Release Status
 
@@ -96,4 +116,3 @@ Out-of-scope uses:
   reference-answer style, and scoring regime.
 - The current manuscript and workbook counts should be reconciled before final
   submission.
-

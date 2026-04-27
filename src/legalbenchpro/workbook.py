@@ -17,13 +17,25 @@ def clip_text(value: Any, limit: int = 320) -> str:
     return text[: limit - 3].rstrip() + "..."
 
 
-def detect_model_headers(first_header_row: Iterable[Any]) -> list[str]:
-    excluded = {"", "Case Info", "External Sample 基础信息", "案件基础信息"}
+def detect_model_headers(
+    first_header_row: Iterable[Any],
+    second_header_row: Iterable[Any] | None = None,
+) -> list[str]:
+    answer_markers = ("AI Answer", "AI回答", "Model Answer")
     models: list[str] = []
-    for value in first_header_row:
+    second_values = list(second_header_row or [])
+    for index, value in enumerate(first_header_row):
         if isinstance(value, str):
             name = value.strip()
-            if name and name not in excluded:
+            if not name:
+                continue
+            if second_values:
+                paired_header = str(second_values[index] or "") if index < len(second_values) else ""
+                if not any(marker in paired_header for marker in answer_markers):
+                    continue
+            elif "Sample" in name or "Info" in name or "基础信息" in name:
+                continue
+            if name:
                 models.append(name)
     return models
 
@@ -42,9 +54,9 @@ def summarize_workbook(path: str | Path) -> list[SheetSummary]:
     for sheet in workbook.worksheets:
         rows = sheet.iter_rows(values_only=True)
         first_header = next(rows, ()) or ()
-        _second_header = next(rows, ()) or ()
+        second_header = next(rows, ()) or ()
         data_rows = sum(1 for row in rows if any(value is not None for value in row))
-        models = detect_model_headers(first_header)
+        models = detect_model_headers(first_header, second_header)
         summaries.append(
             SheetSummary(
                 title=sheet.title,
@@ -54,4 +66,3 @@ def summarize_workbook(path: str | Path) -> list[SheetSummary]:
             )
         )
     return summaries
-

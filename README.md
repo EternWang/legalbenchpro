@@ -12,9 +12,9 @@ The benchmark separates two evaluation settings:
   statute-grounded legal analysis.
 
 This repository is a public research snapshot. It exposes the dataset schema, scoring
-protocol, audit workflow, manuscript materials, and a small safe sample while keeping
-the full workbook private until licensing, privacy, and redistribution review are
-complete.
+protocol, audit workflow, manuscript materials, expanded content samples, and full
+metadata indexes while keeping the complete workbook private until licensing, privacy,
+and redistribution review are complete.
 
 ## Snapshot
 
@@ -25,6 +25,12 @@ complete.
 | Public-exam split | 868 instances | Reference-answer consistency scoring |
 | Model configurations | 22 | Standard, reasoning-enabled, and step-by-step prompting modes |
 | Human validation pilots | 10 real-case rows; 80 public-exam rows | Staged for reviewer calibration and agreement analysis |
+
+The public snapshot includes 24 excerpted Chinese real-case rows, 80 excerpted
+public-exam rows, full metadata indexes for the 76 real-case prompts and 868 public-exam
+instances, model-configuration metadata, and source/domain distribution tables. It does
+not include the full prompt matrix, full reference answers, full model outputs, or human
+review sheets.
 
 ## Research Contribution
 
@@ -50,7 +56,10 @@ For a quick review of the project, start with:
 - `docs/DATA_CARD.md` for scope, counts, intended uses, and release constraints;
 - `docs/ANNOTATION_PROTOCOL.md` for human-validation and scoring design;
 - `docs/AI_WORKFLOW.md` for auditability and AI-assistance safeguards;
-- `data/sample/legalbenchpro_public_sample.csv` for the public sample schema;
+- `data/sample/legalbenchpro_cn_judgments_sample.csv` for real-case content excerpts;
+- `data/sample/legalbenchpro_public_exam_sample.csv` for public-exam content excerpts;
+- `data/metadata/cn_judgments_index.csv` and `data/metadata/public_exam_index.csv`
+  for full-row metadata indexes;
 - `scripts/extract_public_sample.py` for the reproducible sample-export workflow.
 
 ## Repository Map
@@ -67,8 +76,14 @@ docs/
   SCORING_RUBRIC.md                   # Compact scoring rubric
   MANUSCRIPT_STATUS.md                # What is complete and what remains
 data/
+  sample/legalbenchpro_cn_judgments_sample.csv
+  sample/legalbenchpro_public_exam_sample.csv
   sample/legalbenchpro_public_sample.csv
+  metadata/cn_judgments_index.csv
+  metadata/public_exam_index.csv
   metadata/dataset_summary.json
+  metadata/model_configurations.csv
+  metadata/source_distribution.csv
 scripts/
   extract_public_sample.py            # Rebuilds the public sample and metadata
 src/legalbenchpro/
@@ -90,7 +105,8 @@ $env:PYTHONPATH = "$PWD\src"
 python .\scripts\extract_public_sample.py `
   --workbook "C:\path\to\Data Set.xlsx" `
   --out-dir data `
-  --sample-per-split 5
+  --cn-sample-size 24 `
+  --bar-sample-size 80
 ```
 
 ## Validation
@@ -105,10 +121,10 @@ python -m compileall scripts src
 
 ## Release Status
 
-This is a research preview, not a final benchmark release. The public sample is
-truncated and does not include the full model outputs or full case materials. The full
-dataset will require a final licensing, privacy, and source-distribution review before
-release.
+This is a research preview, not a final benchmark release. The public content samples
+are excerpted and do not include the full prompt matrix, full reference answers, full
+model outputs, or human review sheets. The full dataset will require a final licensing,
+privacy, and source-distribution review before release.
 
 ## Author
 

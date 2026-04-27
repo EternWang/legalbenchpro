@@ -1,0 +1,23 @@
+﻿model_index,model_name,appears_in_sheets
+1,Grok 4.20,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+2,DeepSeek R1,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+3,Qwen3 Max,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+4,Deep Cogito 671B,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+5,Codex 5.3,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+6,GPT-5.4 Mini,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+7,Qwen3 Max Thinking,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+8,GLM-5,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+9,Qwen3 235B A22B,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+10,DeepSeek V3.2,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+11,Kimi K2 Thinking,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+12,Grok 4 Fast,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+13,Grok 4.1 Fast,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+14,Command A,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+15,LLaMA 3.1 8B Instruct,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+16,GPT-5.4 Normal,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+17,GPT-5.4 Deep Thinking,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+18,Gemini 2.5 Flash,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+19,Command R+,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+20,Gemini 3 Flash Preview,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+21,Gemini 3 Flash Preview Thinking Low,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
+22,Codex 5.4,CN_Judgments_Multimodel; Bar_Exam_Multimodel; Human_CN_Judgments; Human_Bar_Exam
