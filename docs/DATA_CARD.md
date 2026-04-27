@@ -72,7 +72,8 @@ English-language content previews:
 These files show representative schema, task previews, reference-answer previews, and
 one example model-answer preview. CSV cells are capped at 420 characters, while
 `preview_cases.md` presents the same sample rows as wider case cards for GitHub
-reading. These samples are not sufficient for benchmarking models.
+reading. China public-exam preview rows use concise English translations and summaries
+for public display. These samples are not sufficient for benchmarking models.
 
 Summary metadata:
 

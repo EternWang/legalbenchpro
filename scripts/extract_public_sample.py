@@ -110,6 +110,166 @@ CN_COURT_RESULT_EN = {
 
 HAN_RE = re.compile(r"[\u3400-\u9fff]")
 
+PUBLIC_SAMPLE_EXCLUDED_REVIEW_IDS = {
+    # These early criminal-law rows are retained in the private workbook but omitted
+    # from the public preview because their short reference-answer cells are not
+    # self-contained enough for a standalone sample table.
+    "EXTCN014",
+    "EXTCN015",
+    "EXTCN016",
+    "EXTCN017",
+}
+
+CHINA_PUBLIC_EXAM_PREVIEWS = {
+    "EXTCN001": {
+        "issue_title_en": "Can equity buyer Wang Wu acquire the shares in good faith?",
+        "task_preview": (
+            "You are a legal expert. Answer the official public legal-exam item using "
+            "the translated facts: a shareholder forged resolutions, transfer consents, "
+            "and waiver materials to transfer shares to an unaware buyer; the company "
+            "refused to update the shareholder register. Explain whether the buyer can "
+            "acquire the equity in good faith."
+        ),
+        "reference_answer_preview": (
+            "The official answer says no. Good-faith acquisition requires an unauthorized "
+            "disposition; the transferor was the real shareholder disposing of his own "
+            "equity, and the equity registration had not yet changed, so the doctrine "
+            "does not apply."
+        ),
+        "example_answer_preview": (
+            "The example model also answers no, emphasizing the forged consent materials, "
+            "limits on external equity transfers, other shareholders' preemptive rights, "
+            "and the company's basis for refusing registration."
+        ),
+    },
+    "EXTCN008": {
+        "issue_title_en": "Whether a county housing-expropriation decision is a concrete administrative act",
+        "task_preview": (
+            "You are a legal expert. Answer the official public legal-exam item using "
+            "the translated facts: a county government issued a housing-expropriation "
+            "decision for an urban-renewal project, included Sun's home, and later the "
+            "project command arranged demolition after no compensation agreement was "
+            "reached. Is the expropriation decision a concrete administrative act?"
+        ),
+        "reference_answer_preview": (
+            "The official answer says yes. The housing-expropriation decision targets "
+            "specific affected properties and owners, is not repeatedly applicable, and "
+            "directly changes the parties' rights and obligations."
+        ),
+        "example_answer_preview": (
+            "The example model likewise classifies the decision as a concrete "
+            "administrative act, citing the expropriation regulation and focusing on "
+            "specific object, concrete content, and direct legal effect."
+        ),
+    },
+    "EXTCN018": {
+        "issue_title_en": "Whether Liu's conduct can be characterized as extortion or embezzlement",
+        "task_preview": (
+            "You are a legal expert. Answer the official public legal-exam item using "
+            "the translated facts: Zhao extorted 100,000 yuan from Zhou, told Zhou to "
+            "put the money in a trash bin, then told Liu to collect it and split the "
+            "proceeds. Explain the arguments for treating Liu as liable for extortion "
+            "and for treating Liu as liable for embezzlement."
+        ),
+        "reference_answer_preview": (
+            "The official answer presents both views: Liu may be an accessory or "
+            "successive participant in extortion because he joined before Zhao obtained "
+            "the money; alternatively, if the money is treated as property already "
+            "disposed of and left in the trash bin, Liu's taking can be framed as "
+            "embezzlement of found property."
+        ),
+        "example_answer_preview": (
+            "The example model chooses the extortion theory and rejects embezzlement, "
+            "reasoning that the money remained under Zhao's plan and control rather than "
+            "becoming lost or forgotten property."
+        ),
+    },
+    "EXTCN022": {
+        "issue_title_en": "Meaning of major meritorious service and the procedure for withdrawing a criminal case",
+        "task_preview": (
+            "You are a legal expert. Answer the official public legal-exam item using "
+            "the translated facts: in a criminal-procedure scenario involving confession, "
+            "leniency, and major meritorious service, the public security organ plans to "
+            "withdraw Xiao's case. Explain the meaning of major meritorious service and "
+            "the required withdrawal procedure."
+        ),
+        "reference_answer_preview": (
+            "The official answer defines major meritorious service as reporting major "
+            "crimes, providing key clues, preventing serious crime, helping capture "
+            "major suspects, or making other major contributions; for withdrawal, the "
+            "case must follow the statutory approval and procuratorate-notification path."
+        ),
+        "example_answer_preview": (
+            "The example model gives the statutory definition and describes a reporting, "
+            "approval, and notification process for withdrawing the case after major "
+            "meritorious service."
+        ),
+    },
+    "EXTCN028": {
+        "issue_title_en": "Which court has jurisdiction over Fengqiao Company's suit against Company A?",
+        "task_preview": (
+            "You are a legal expert. Answer the official public legal-exam item using "
+            "the translated facts: subsidiaries leased floors in an office building, the "
+            "parent issued an independent guarantee, and the contract selected a court "
+            "in T City Y District. Fengqiao sues Company A. Identify the court with "
+            "jurisdiction and explain why."
+        ),
+        "reference_answer_preview": (
+            "The official answer selects the S City A District court. When a creditor "
+            "sues debtor and guarantor together, jurisdiction follows the main contract; "
+            "because the main dispute is an immovable-property lease dispute, exclusive "
+            "jurisdiction lies at the property's location."
+        ),
+        "example_answer_preview": (
+            "The example model instead selects the T City Y District court based on the "
+            "forum-selection clause, which illustrates an answer-reference mismatch and "
+            "the row's low answer-match score."
+        ),
+    },
+    "EXTCN093": {
+        "issue_title_en": "Multi-issue civil-law problem on loan security, sole-proprietorship debt, property sale, rent, and pledge",
+        "task_preview": (
+            "You are a legal expert. Answer the official public legal-exam item using "
+            "the translated facts: A borrowed money from B and signed a conditional "
+            "apartment sale contract as security, operated a sole proprietorship that "
+            "borrowed from C with a guarantee and car pledge, and later sold the "
+            "apartment to G. Resolve the listed civil-law issues."
+        ),
+        "reference_answer_preview": (
+            "The official answer treats the apartment sale contract as security for a "
+            "private loan rather than an ordinary sale claim, then analyzes A's "
+            "liability for the sole proprietorship debt, the guarantor's liability, the "
+            "pledge consequences, property transfer, rent entitlement, and limitations."
+        ),
+        "example_answer_preview": (
+            "The example model gives a broad multi-part answer but diverges on important "
+            "parts of the secured-sale analysis and responsibility allocation, reflected "
+            "in the low answer-match score."
+        ),
+    },
+    "EXTCN097": {
+        "issue_title_en": "Defendants, burden of proof, accident report effect, retrial forum, and retrial procedure in a traffic-injury case",
+        "task_preview": (
+            "You are a legal expert. Answer the official public legal-exam item using "
+            "the translated facts: an unregistered minibus was operated through an "
+            "affiliated transport company and insured; the hired driver injured Li, and "
+            "the police accident report assigned full responsibility to the minibus. "
+            "Resolve defendants, proof burdens, probative force, and retrial issues."
+        ),
+        "reference_answer_preview": (
+            "The official answer determines defendants according to the plaintiff's "
+            "claims, allocates proof burdens under the general who-asserts-must-prove "
+            "rule, states that the police accident report is evidence but not conclusive, "
+            "and applies civil-procedure retrial rules."
+        ),
+        "example_answer_preview": (
+            "The example model names the driver/operator, affiliated company, and insurer "
+            "as defendants, allocates proof burdens among parties, and explains why the "
+            "accident report does not automatically control the court's factfinding."
+        ),
+    },
+}
+
 
 def cell(row: tuple[object, ...], index: int) -> object:
     return row[index] if index < len(row) else None
@@ -169,6 +329,10 @@ def translate_cn_issue(issue_id: str, raw_title: str) -> str:
 
 
 def public_exam_issue_preview(row: tuple[object, ...], limit: int) -> str:
+    review_id = text(row, BAR["review_id"], 40)
+    preview = CHINA_PUBLIC_EXAM_PREVIEWS.get(review_id)
+    if preview:
+        return clip_text(preview["issue_title_en"], limit)
     raw_title = text(row, BAR["issue_title"], limit)
     if not has_han(raw_title):
         return raw_title
@@ -269,35 +433,42 @@ def cn_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> di
 
 
 def bar_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> dict[str, str]:
+    review_id = text(row, BAR["review_id"], 40)
     source_country = text(row, BAR["source_country"], 50)
-    issue_title = public_exam_issue_preview(row, 100)
+    issue_title = public_exam_issue_preview(row, 180)
     raw_prompt = text(row, BAR["prompt"], cell_limit)
     raw_reference = text(row, BAR["reference_answer"], cell_limit)
     raw_answer = text(row, BAR_FIRST_MODEL_ANSWER, cell_limit)
     if source_country == "China" or has_han(raw_prompt + raw_reference + raw_answer):
-        source_system = text(row, BAR["source_legal_system"], 100)
-        legal_domain = text(row, BAR["law_category"], 70)
-        task_preview = (
-            "You are a legal expert. Answer the official public legal-exam item below "
-            "using only the facts and materials reproduced in this prompt. "
-            f"[Exam Source] {source_system}. [Legal Domain] {legal_domain}. "
-            "Provide the applicable rule, reasoning, and conclusion."
-        )
-        reference_preview = (
-            "Official reference answer evaluates the governing rule, legally relevant facts, "
-            "application, and final conclusion for this public legal-exam item."
-        )
-        answer_preview = (
-            "The model answer gives a rule-application-conclusion response for the same "
-            "public legal-exam item."
-        )
+        preview = CHINA_PUBLIC_EXAM_PREVIEWS.get(review_id)
+        if preview:
+            task_preview = preview["task_preview"]
+            reference_preview = preview["reference_answer_preview"]
+            answer_preview = preview["example_answer_preview"]
+        else:
+            source_system = text(row, BAR["source_legal_system"], 100)
+            legal_domain = text(row, BAR["law_category"], 70)
+            task_preview = (
+                "You are a legal expert. Answer the official public legal-exam item below "
+                "using only the facts and materials reproduced in this prompt. "
+                f"[Exam Source] {source_system}. [Legal Domain] {legal_domain}. "
+                "Provide the applicable rule, reasoning, and conclusion."
+            )
+            reference_preview = (
+                "Official reference answer evaluates the governing rule, legally relevant facts, "
+                "application, and final conclusion for this public legal-exam item."
+            )
+            answer_preview = (
+                "The model answer gives a rule-application-conclusion response for the same "
+                "public legal-exam item."
+            )
     else:
         source_prefix = "You are a legal " + "analyst."
         task_preview = raw_prompt.replace(source_prefix, "You are a legal expert.", 1)
         reference_preview = raw_reference
         answer_preview = raw_answer
     record = {
-        "review_id": text(row, BAR["review_id"], 40),
+        "review_id": review_id,
         "document_id": safe_identifier(
             text(row, BAR["document_id"], 80),
             f"CN-public-exam-{text(row, BAR['review_id'], 40)}",
@@ -606,7 +777,10 @@ def main() -> None:
     model_records = model_configuration_records(workbook)
 
     cn_full_sample = [cn_sample_record(row, cn_model, args.max_cell_chars) for row in cn_rows]
-    bar_full_sample = [bar_sample_record(row, bar_model, args.max_cell_chars) for row in bar_rows]
+    bar_sample_rows = [
+        row for row in bar_rows if text(row, BAR["review_id"], 40) not in PUBLIC_SAMPLE_EXCLUDED_REVIEW_IDS
+    ]
+    bar_full_sample = [bar_sample_record(row, bar_model, args.max_cell_chars) for row in bar_sample_rows]
     cn_sample = stratified_sample(
         cn_full_sample,
         ("law_category", "case_type", "stance"),

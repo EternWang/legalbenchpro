@@ -25,6 +25,10 @@ Preview CSV cells are capped at 420 characters. For a wider display, use
 preview does not include full prompts, full reference answers, full model-output
 matrices, or human review sheets.
 
+China public-exam preview rows use concise English translations and summaries of the
+source prompt, official answer, and example model answer. The complete source-language
+materials remain in the private workbook pending release review.
+
 ## Snapshot Counts
 
 | Component | Count |
