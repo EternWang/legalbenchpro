@@ -1,0 +1,97 @@
+\section{Introduction}
+
+Large language models are now routinely evaluated on legal tasks. They summarize
+legal documents, answer bar-style questions, retrieve legal authorities, and perform
+strongly on public legal benchmarks. These results are informative, but they leave
+open a practical question: does strong performance on public and standardized legal
+tasks carry over to de-identified case analysis derived from real court judgments?
+
+This question matters because legal practice is rarely structured like an exam. Real
+cases involve long fact patterns, incomplete information, contested interpretations,
+and multiple plausible lines of argument. A legal analysis must do more than select
+an answer. It must identify relevant legal authorities, recover the operative
+conditions embedded in those authorities, connect those conditions to the facts, and
+organize a defensible argument. In adversarial settings, it must also reason from
+competing positions, including positions that do not align with the final judgment
+outcome. The practical issue, then, is not only whether LLMs know legal rules, but
+whether they can reason in a way that is meaningfully closer to how judges and
+lawyers analyze real disputes.
+
+We introduce \textsc{LegalBenchPro}, a two-part benchmark designed around this gap.
+The first part is a public-exam split containing 868 standardized open-ended legal
+exam instances from Australia, China, the United Kingdom, and the United States. The
+U.S. portion includes state-specific bar exam materials from jurisdictions such as
+Virginia, California, New York, Georgia, and Maryland, together with Uniform Bar
+Examination and NCBE-style materials. This split is scalable and paired with
+reference answers, making it suitable for reference-based answer-match evaluation.
+
+The second part is a de-identified real-case split containing 76 issue-stance prompts
+derived from 15 Chinese civil judgments and 38 legal issues. Each real-case prompt is
+built from a professionally curated background summary and asks the model to generate
+a two-paragraph, statute-grounded legal analysis either supporting or opposing the
+court's conclusion. This paired design keeps the fact pattern fixed while varying the
+analytic position, making it possible to evaluate whether a model can reason across
+competing legal stances rather than merely imitate an observed outcome.
+
+Public legal exams are attractive evaluation data because they are scalable,
+standardized, and often paired with reference answers. Yet those advantages also make
+them an incomplete proxy for legal reasoning in practice. Real-case analysis is
+harder to curate and more costly to review, but it more directly tests whether a
+model can identify legally responsive authorities, recover the operative rule
+conditions embedded in those authorities, and construct defensible arguments over
+unfamiliar fact patterns. To capture this practically important gap, we design
+\textsc{LegalBenchPro} with two complementary components: a scalable public-exam
+split and a practice-oriented real-case split. Taken together, they allow us to study
+how legal reasoning performance changes across two settings that differ in both
+evaluability and practical realism.
+
+This design enables several central comparisons. It allows us to examine whether
+model rankings on public legal tasks transfer to de-identified real-case analysis,
+whether reasoning-enabled modes retain their advantages once they move beyond
+standardized settings, and how performance varies across countries, jurisdictions,
+legal domains, task types, and model families. Because the public-exam split is
+scored against reference answers while the real-case split uses a citation-aware
+rubric with human validation in progress, the benchmark also supports analysis of
+evaluation regimes themselves, including when automated or model-assisted scoring
+aligns with human legal assessment and when it diverges.
+
+To support these analyses, our current benchmark snapshot evaluates 22 model
+configurations across both splits. The public-exam split is scored by
+reference-based answer consistency. The real-case split is scored with a
+citation-aware rubric designed for applied legal reasoning. This rubric focuses on
+whether a response selects legally responsive authorities, correctly recovers the
+operative rule conditions, and applies those conditions to the curated facts in a
+defensible manner. Unlike purely reference-based scoring, this setup more faithfully
+reflects the structure of legal analysis itself. It does not ask only whether a model
+produces a matching answer. It asks whether the model grounds its reasoning in
+relevant authority, makes the governing legal conditions explicit, and connects those
+conditions to the fact summary without importing unobserved facts or collapsing the
+distinction between the paired supporting and opposing positions.
+
+Taken together, these components position \textsc{LegalBenchPro} not merely as a new
+legal benchmark, but as a way to test a broader evaluation question: whether success
+on scalable public legal tasks reliably indicates performance on practice-oriented
+legal analysis. Our current real-case split focuses on Chinese civil cases, with
+medical malpractice disputes forming the largest subset, followed by contract,
+traffic-accident, personal-injury, and property-related disputes. We make this scope
+explicit and treat broader doctrinal coverage as an important direction for future
+expansion.
+
+Our contributions are fourfold.
+
+\begin{enumerate}
+    \item We introduce a two-part legal reasoning benchmark that separates scalable
+    public legal-exam evaluation from de-identified real-case analysis.
+
+    \item We provide a curated protocol for Chinese civil case analysis built from
+    paired issue-stance prompts derived from real judgments.
+
+    \item We evaluate 22 model configurations across standard modes,
+    reasoning-enabled modes, and explicit step-by-step prompting setups, enabling
+    controlled comparisons within and across model families.
+
+    \item We provide a citation-aware scoring and human-validation workflow for
+    comparing reference-based public-exam evaluation with practice-oriented legal
+    reasoning assessment.
+\end{enumerate}
+

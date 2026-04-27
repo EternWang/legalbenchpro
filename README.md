@@ -95,7 +95,7 @@ python .\scripts\extract_public_sample.py `
 
 ## Validation
 
-The repository includes a small test suite and GitHub Actions workflow:
+The repository includes a small test suite:
 
 ```powershell
 $env:PYTHONPATH = "$PWD\src"

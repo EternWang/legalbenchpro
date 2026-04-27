@@ -1,0 +1,139 @@
+﻿{
+  "source_workbook_name": "Data Set.xlsx",
+  "release_status": "public sample only; full workbook is private/local until licensing review",
+  "sheets": [
+    {
+      "title": "Rubric",
+      "data_rows_after_two_header_rows": 33,
+      "model_count_detected": 4,
+      "model_names_detected": [
+        "分类",
+        "分值/关键词",
+        "中文说明",
+        "审核备注"
+      ]
+    },
+    {
+      "title": "CN_Judgments_Multimodel",
+      "data_rows_after_two_header_rows": 76,
+      "model_count_detected": 22,
+      "model_names_detected": [
+        "Grok 4.20",
+        "DeepSeek R1",
+        "Qwen3 Max",
+        "Deep Cogito 671B",
+        "Codex 5.3",
+        "GPT-5.4 Mini",
+        "Qwen3 Max Thinking",
+        "GLM-5",
+        "Qwen3 235B A22B",
+        "DeepSeek V3.2",
+        "Kimi K2 Thinking",
+        "Grok 4 Fast",
+        "Grok 4.1 Fast",
+        "Command A",
+        "LLaMA 3.1 8B Instruct",
+        "GPT-5.4 Normal",
+        "GPT-5.4 Deep Thinking",
+        "Gemini 2.5 Flash",
+        "Command R+",
+        "Gemini 3 Flash Preview",
+        "Gemini 3 Flash Preview Thinking Low",
+        "Codex 5.4"
+      ]
+    },
+    {
+      "title": "Bar_Exam_Multimodel",
+      "data_rows_after_two_header_rows": 868,
+      "model_count_detected": 22,
+      "model_names_detected": [
+        "Grok 4.20",
+        "DeepSeek R1",
+        "Qwen3 Max",
+        "Deep Cogito 671B",
+        "Codex 5.3",
+        "GPT-5.4 Mini",
+        "Qwen3 Max Thinking",
+        "GLM-5",
+        "Qwen3 235B A22B",
+        "DeepSeek V3.2",
+        "Kimi K2 Thinking",
+        "Grok 4 Fast",
+        "Grok 4.1 Fast",
+        "Command A",
+        "LLaMA 3.1 8B Instruct",
+        "GPT-5.4 Normal",
+        "GPT-5.4 Deep Thinking",
+        "Gemini 2.5 Flash",
+        "Command R+",
+        "Gemini 3 Flash Preview",
+        "Gemini 3 Flash Preview Thinking Low",
+        "Codex 5.4"
+      ]
+    },
+    {
+      "title": "Human_CN_Judgments",
+      "data_rows_after_two_header_rows": 10,
+      "model_count_detected": 22,
+      "model_names_detected": [
+        "Grok 4.20",
+        "DeepSeek R1",
+        "Qwen3 Max",
+        "Deep Cogito 671B",
+        "Codex 5.3",
+        "GPT-5.4 Mini",
+        "Qwen3 Max Thinking",
+        "GLM-5",
+        "Qwen3 235B A22B",
+        "DeepSeek V3.2",
+        "Kimi K2 Thinking",
+        "Grok 4 Fast",
+        "Grok 4.1 Fast",
+        "Command A",
+        "LLaMA 3.1 8B Instruct",
+        "GPT-5.4 Normal",
+        "GPT-5.4 Deep Thinking",
+        "Gemini 2.5 Flash",
+        "Command R+",
+        "Gemini 3 Flash Preview",
+        "Gemini 3 Flash Preview Thinking Low",
+        "Codex 5.4"
+      ]
+    },
+    {
+      "title": "Human_Bar_Exam",
+      "data_rows_after_two_header_rows": 80,
+      "model_count_detected": 22,
+      "model_names_detected": [
+        "Grok 4.20",
+        "DeepSeek R1",
+        "Qwen3 Max",
+        "Deep Cogito 671B",
+        "Codex 5.3",
+        "GPT-5.4 Mini",
+        "Qwen3 Max Thinking",
+        "GLM-5",
+        "Qwen3 235B A22B",
+        "DeepSeek V3.2",
+        "Kimi K2 Thinking",
+        "Grok 4 Fast",
+        "Grok 4.1 Fast",
+        "Command A",
+        "LLaMA 3.1 8B Instruct",
+        "GPT-5.4 Normal",
+        "GPT-5.4 Deep Thinking",
+        "Gemini 2.5 Flash",
+        "Command R+",
+        "Gemini 3 Flash Preview",
+        "Gemini 3 Flash Preview Thinking Low",
+        "Codex 5.4"
+      ]
+    }
+  ],
+  "public_snapshot_counts": {
+    "cn_real_case_issue_stance_prompts": 76,
+    "public_exam_instances": 868,
+    "human_cn_pilot_rows": 10,
+    "human_bar_pilot_rows": 80
+  }
+}
