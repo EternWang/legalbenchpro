@@ -31,6 +31,11 @@ analysis. That design makes it possible to ask a more social-scientific evaluati
 question: when does performance on convenient public benchmarks transfer to harder
 institutional reasoning tasks, and when does it fail?
 
+For a quantitative-methods reader, the key signal is measurement design rather than
+dataset size alone: the project defines comparable tasks, preserves source metadata,
+separates scoring regimes, and documents which parts are validated, provisional, or
+held back for release review.
+
 ### AI-Native Reproducibility
 
 The repo makes AI assistance explicit rather than invisible. It separates prompt
