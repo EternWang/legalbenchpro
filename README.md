@@ -12,9 +12,9 @@ The benchmark separates two evaluation settings:
   statute-grounded legal analysis.
 
 This repository is a public research snapshot. It exposes the dataset schema, scoring
-protocol, audit workflow, manuscript materials, expanded content samples, and full
-metadata indexes while keeping the complete workbook private until licensing, privacy,
-and redistribution review are complete.
+protocol, audit workflow, manuscript materials, compact content previews, and summary
+metadata while keeping the complete workbook private until licensing, privacy, and
+redistribution review are complete.
 
 ## Snapshot
 
@@ -26,11 +26,11 @@ and redistribution review are complete.
 | Model configurations | 22 | Standard, reasoning-enabled, and step-by-step prompting modes |
 | Human validation pilots | 10 real-case rows; 80 public-exam rows | Staged for reviewer calibration and agreement analysis |
 
-The public snapshot includes 24 excerpted Chinese real-case rows, 80 excerpted
-public-exam rows, full metadata indexes for the 76 real-case prompts and 868 public-exam
-instances, model-configuration metadata, and source/domain distribution tables. It does
-not include the full prompt matrix, full reference answers, full model outputs, or human
-review sheets.
+The public snapshot includes 10 excerpted Chinese real-case rows, 20 excerpted
+public-exam rows, model-configuration metadata, and compact source/domain distribution
+tables. Preview CSV cells are capped at 180 characters so that GitHub's table view stays
+readable. The repository does not include the full prompt matrix, full reference
+answers, full model outputs, row-level full indexes, or human review sheets.
 
 ## Research Contribution
 
@@ -56,10 +56,11 @@ For a quick review of the project, start with:
 - `docs/DATA_CARD.md` for scope, counts, intended uses, and release constraints;
 - `docs/ANNOTATION_PROTOCOL.md` for human-validation and scoring design;
 - `docs/AI_WORKFLOW.md` for auditability and AI-assistance safeguards;
+- `data/README.md` for a compact public data preview;
 - `data/sample/legalbenchpro_cn_judgments_sample.csv` for real-case content excerpts;
 - `data/sample/legalbenchpro_public_exam_sample.csv` for public-exam content excerpts;
-- `data/metadata/cn_judgments_index.csv` and `data/metadata/public_exam_index.csv`
-  for full-row metadata indexes;
+- `data/metadata/source_distribution.csv` and `data/metadata/model_configurations.csv`
+  for concise metadata;
 - `scripts/extract_public_sample.py` for the reproducible sample-export workflow.
 
 ## Repository Map
@@ -76,11 +77,9 @@ docs/
   SCORING_RUBRIC.md                   # Compact scoring rubric
   MANUSCRIPT_STATUS.md                # What is complete and what remains
 data/
+  README.md
   sample/legalbenchpro_cn_judgments_sample.csv
   sample/legalbenchpro_public_exam_sample.csv
-  sample/legalbenchpro_public_sample.csv
-  metadata/cn_judgments_index.csv
-  metadata/public_exam_index.csv
   metadata/dataset_summary.json
   metadata/model_configurations.csv
   metadata/source_distribution.csv
@@ -105,8 +104,9 @@ $env:PYTHONPATH = "$PWD\src"
 python .\scripts\extract_public_sample.py `
   --workbook "C:\path\to\Data Set.xlsx" `
   --out-dir data `
-  --cn-sample-size 24 `
-  --bar-sample-size 80
+  --cn-sample-size 10 `
+  --bar-sample-size 20 `
+  --max-cell-chars 180
 ```
 
 ## Validation

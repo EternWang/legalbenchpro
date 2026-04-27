@@ -1,6 +1,15 @@
 ﻿{
   "source_workbook_name": "Data Set.xlsx",
-  "release_status": "expanded public sample plus metadata indexes; full workbook is private/local until licensing review",
+  "release_status": "compact public preview; full workbook is private/local until licensing review",
+  "preview_policy": {
+    "cn_sample_rows": 10,
+    "public_exam_sample_rows": 20,
+    "max_csv_cell_characters": 180,
+    "full_prompt_matrix_public": false,
+    "full_reference_answers_public": false,
+    "full_model_outputs_public": false,
+    "human_review_sheets_public": false
+  },
   "sheets": [
     {
       "title": "Rubric",
@@ -128,22 +137,18 @@
   "public_snapshot_counts": {
     "cn_real_case_issue_stance_prompts": 76,
     "public_exam_instances": 868,
-    "cn_public_sample_rows": 24,
-    "public_exam_sample_rows": 80,
-    "cn_public_index_rows": 76,
-    "public_exam_index_rows": 868,
+    "model_configurations": 22,
     "human_cn_pilot_rows": 10,
     "human_bar_pilot_rows": 80
   },
   "public_files": {
+    "readme": "data/README.md",
     "content_samples": [
       "data/sample/legalbenchpro_cn_judgments_sample.csv",
-      "data/sample/legalbenchpro_public_exam_sample.csv",
-      "data/sample/legalbenchpro_public_sample.csv"
+      "data/sample/legalbenchpro_public_exam_sample.csv"
     ],
-    "metadata_indexes": [
-      "data/metadata/cn_judgments_index.csv",
-      "data/metadata/public_exam_index.csv",
+    "metadata": [
+      "data/metadata/dataset_summary.json",
       "data/metadata/model_configurations.csv",
       "data/metadata/source_distribution.csv"
     ]

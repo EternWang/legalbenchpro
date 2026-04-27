@@ -30,10 +30,6 @@ public_exam,source_legal_system,England and Wales,80
 public_exam,source_legal_system,Maryland UBE law,75
 public_exam,source_legal_system,Georgia bar exam law,70
 public_exam,source_legal_system,Victoria / Australia bar entrance exam law,70
-public_exam,source_legal_system,Uniform Bar Examination / generally accepted U.S. law,57
-public_exam,source_legal_system,California Bar Examination / fictional State of Columbia authorities,17
-public_exam,source_legal_system,Victoria / Australia law,8
-public_exam,source_legal_system,England and Wales law,6
 public_exam,law_category,Tort,243
 public_exam,law_category,Business Organizations / Agency,126
 public_exam,law_category,Foundations of Legal Knowledge,68
@@ -42,22 +38,6 @@ public_exam,law_category,Succession / Trusts / Estates,61
 public_exam,law_category,Family,58
 public_exam,law_category,Professional Responsibility / Legal Ethics,38
 public_exam,law_category,Civil Procedure,26
-public_exam,law_category,Commercial / Company Law,23
-public_exam,law_category,Criminal Procedure,23
-public_exam,law_category,Civil / Civil Procedure,22
-public_exam,law_category,Administrative Law,21
-public_exam,law_category,Constitutional / Public Law,18
-public_exam,law_category,Criminal Law,16
-public_exam,law_category,Criminal,15
-public_exam,law_category,Property,12
-public_exam,law_category,Evidence,10
-public_exam,law_category,Contract Law,8
-public_exam,law_category,Contract,4
-public_exam,law_category,European Union Law,4
-public_exam,law_category,Employment / Labor,2
-public_exam,law_category,Administrative / Regulatory,1
-public_exam,law_category,Civil Law,1
-public_exam,law_category,Remedies / Equity,1
 public_exam,law_category_detail,Entity Governance / Agency,124
 public_exam,law_category_detail,Medical Malpractice,116
 public_exam,law_category_detail,UCC / Secured Transactions,67
@@ -66,31 +46,11 @@ public_exam,law_category_detail,Wills / Trusts / Estates,61
 public_exam,law_category_detail,Family / Domestic Relations,58
 public_exam,law_category_detail,FLK2,45
 public_exam,law_category_detail,Negligence / Personal Injury,40
-public_exam,law_category_detail,Lawyer / Barrister Ethics,38
-public_exam,law_category_detail,Civil Procedure,25
-public_exam,law_category_detail,FLK1,23
-public_exam,law_category_detail,商法,23
-public_exam,law_category_detail,民法与民诉法,22
-public_exam,law_category_detail,Defamation / Reputation,21
-public_exam,law_category_detail,行政法,21
-public_exam,law_category_detail,Constitutional Law,18
-public_exam,law_category_detail,刑法,16
-public_exam,law_category_detail,Substantive Criminal Law,15
-public_exam,law_category_detail,Real Property,12
-public_exam,law_category_detail,Evidence,10
-public_exam,law_category_detail,刑事诉讼法,10
-public_exam,law_category_detail,CILEX Level 6 Unit 2,8
-public_exam,law_category_detail,Criminal Procedure,6
-public_exam,law_category_detail,刑诉法,6
-public_exam,law_category_detail,CILEX Level 6 Unit 6,4
-public_exam,law_category_detail,Contract / Arbitration,4
-public_exam,law_category_detail,Employment / Labor,2
-public_exam,law_category_detail,Administrative / Regulatory,1
-public_exam,law_category_detail,Border Search / Suppression,1
-public_exam,law_category_detail,Corporate Governance,1
-public_exam,law_category_detail,Negligence / Strict Liability,1
-public_exam,law_category_detail,Nuisance / Trespass,1
-public_exam,law_category_detail,Partnership,1
-public_exam,law_category_detail,Remedies / Equity,1
-public_exam,law_category_detail,民事诉讼法,1
-public_exam,law_category_detail,民法,1
+public_exam,source_url_domain,barexam.virginia.gov,183
+public_exam,source_url_domain,www.calbar.ca.gov,117
+public_exam,source_url_domain,www.nybarexam.org,102
+public_exam,source_url_domain,m.233.com,100
+public_exam,source_url_domain,www.mdcourts.gov,75
+public_exam,source_url_domain,sqe.sra.org.uk,74
+public_exam,source_url_domain,www.gabaradmissions.org,70
+public_exam,source_url_domain,www.ncbex.org,57

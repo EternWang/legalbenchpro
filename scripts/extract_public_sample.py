@@ -22,7 +22,6 @@ CN = {
     "core_issue": 7,
     "prompt": 8,
     "cited_authority": 9,
-    "supported_proposition": 10,
     "court_level": 12,
     "case_type": 13,
     "law_category": 14,
@@ -34,7 +33,6 @@ CN_FIRST_MODEL_SCORES = (18, 19, 20)
 BAR = {
     "review_id": 0,
     "document_id": 1,
-    "case_theme": 2,
     "issue_id": 3,
     "issue_title": 4,
     "prompt": 5,
@@ -49,77 +47,34 @@ BAR = {
 BAR_FIRST_MODEL_ANSWER = 14
 BAR_FIRST_MODEL_SCORE = 15
 
-COMMON_SAMPLE_FIELDS = [
-    "split",
-    "review_id",
-    "document_id",
-    "issue_id",
-    "issue_title",
-    "jurisdiction_or_source",
-    "law_category",
-    "law_category_detail",
-    "stance",
-    "prompt_excerpt",
-    "reference_excerpt",
-    "example_model",
-    "example_answer_excerpt",
-    "score_or_status",
-]
-
 CN_SAMPLE_FIELDS = [
-    "split",
     "review_id",
     "document_id",
     "issue_id",
     "issue_title",
-    "case_theme",
-    "court_level",
     "case_type",
     "law_category",
-    "law_category_detail",
     "stance",
     "prompt_excerpt",
     "core_issue_excerpt",
-    "cited_authority_excerpt",
-    "supported_proposition_excerpt",
     "example_model",
     "example_answer_excerpt",
-    "automated_score_summary",
-    "release_note",
+    "score_summary",
 ]
 
 BAR_SAMPLE_FIELDS = [
-    "split",
     "review_id",
     "document_id",
     "issue_id",
     "issue_title",
     "source_country",
     "source_legal_system",
-    "source_body",
-    "source_url_domain",
     "law_category",
-    "law_category_detail",
     "prompt_excerpt",
     "reference_answer_excerpt",
     "example_model",
     "example_answer_excerpt",
     "answer_match_score",
-    "release_note",
-]
-
-INDEX_FIELDS = [
-    "split",
-    "review_id",
-    "document_id",
-    "issue_id",
-    "issue_title",
-    "source_or_case_theme",
-    "jurisdiction_or_source",
-    "law_category",
-    "law_category_detail",
-    "stance",
-    "public_content_status",
 ]
 
 
@@ -127,9 +82,8 @@ def cell(row: tuple[object, ...], index: int) -> object:
     return row[index] if index < len(row) else None
 
 
-def text(row: tuple[object, ...], index: int, limit: int | None = None) -> str:
-    value = cell(row, index)
-    return clip_text(value, limit) if limit else clip_text(value, 10_000)
+def text(row: tuple[object, ...], index: int, limit: int) -> str:
+    return clip_text(cell(row, index), limit)
 
 
 def nonempty(row: tuple[object, ...]) -> bool:
@@ -139,22 +93,19 @@ def nonempty(row: tuple[object, ...]) -> bool:
 def source_domain(value: object) -> str:
     if value is None:
         return ""
-    parsed = urlparse(str(value))
-    return parsed.netloc.lower()
+    return urlparse(str(value)).netloc.lower()
+
+
+def read_data_rows(workbook, sheet_name: str) -> tuple[tuple[object, ...], tuple[object, ...], list[tuple[object, ...]]]:
+    rows = workbook[sheet_name].iter_rows(values_only=True)
+    first_header = next(rows)
+    second_header = next(rows)
+    return first_header, second_header, [row for row in rows if nonempty(row)]
 
 
 def first_model_name(first_header: tuple[object, ...], second_header: tuple[object, ...]) -> str:
     models = detect_model_headers(first_header, second_header)
     return models[0] if models else ""
-
-
-def read_data_rows(workbook, sheet_name: str) -> tuple[tuple[object, ...], tuple[object, ...], list[tuple[object, ...]]]:
-    ws = workbook[sheet_name]
-    rows = ws.iter_rows(values_only=True)
-    first_header = next(rows)
-    second_header = next(rows)
-    data_rows = [row for row in rows if nonempty(row)]
-    return first_header, second_header, data_rows
 
 
 def stratified_sample(records: list[dict[str, str]], keys: tuple[str, ...], limit: int) -> list[dict[str, str]]:
@@ -164,170 +115,114 @@ def stratified_sample(records: list[dict[str, str]], keys: tuple[str, ...], limi
     for record in records:
         key = tuple(record.get(name, "") for name in keys)
         buckets.setdefault(key, []).append(record)
+
     selected: list[dict[str, str]] = []
     bucket_keys = sorted(buckets)
     while len(selected) < limit:
-        made_progress = False
+        progressed = False
         for key in bucket_keys:
             if buckets[key]:
                 selected.append(buckets[key].pop(0))
-                made_progress = True
+                progressed = True
                 if len(selected) >= limit:
                     break
-        if not made_progress:
+        if not progressed:
             break
     return selected
 
 
-def cn_score_summary(row: tuple[object, ...]) -> str:
-    scores = [text(row, index) for index in CN_FIRST_MODEL_SCORES]
+def capped(value: str, limit: int) -> str:
+    return clip_text(value, limit)
+
+
+def cap_record(record: dict[str, str], limit: int) -> dict[str, str]:
+    return {key: capped(value, limit) for key, value in record.items()}
+
+
+def cn_score_summary(row: tuple[object, ...], limit: int) -> str:
+    scores = [text(row, index, 20) for index in CN_FIRST_MODEL_SCORES]
     if not any(scores):
-        return "automated rubric scores not shown in public index"
-    return "A/B/C=" + "/".join(scores)
+        return "not shown"
+    return capped("A/B/C=" + "/".join(scores), limit)
 
 
-def cn_sample_record(row: tuple[object, ...], model: str) -> dict[str, str]:
-    return {
-        "split": "real_case_cn",
-        "review_id": text(row, CN["review_id"]),
-        "document_id": text(row, CN["document_id"]),
-        "issue_id": text(row, CN["issue_id"]),
-        "issue_title": text(row, CN["issue_title"], 140),
-        "case_theme": text(row, CN["case_theme"], 160),
-        "court_level": text(row, CN["court_level"], 80),
-        "case_type": text(row, CN["case_type"], 100),
-        "law_category": text(row, CN["law_category"], 80),
-        "law_category_detail": text(row, CN["law_category_detail"], 100),
-        "stance": text(row, CN["stance"], 80),
-        "prompt_excerpt": text(row, CN["prompt"], 420),
-        "core_issue_excerpt": text(row, CN["core_issue"], 260),
-        "cited_authority_excerpt": text(row, CN["cited_authority"], 220),
-        "supported_proposition_excerpt": text(row, CN["supported_proposition"], 220),
+def cn_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> dict[str, str]:
+    record = {
+        "review_id": text(row, CN["review_id"], 40),
+        "document_id": text(row, CN["document_id"], 40),
+        "issue_id": text(row, CN["issue_id"], 50),
+        "issue_title": text(row, CN["issue_title"], 90),
+        "case_type": text(row, CN["case_type"], 70),
+        "law_category": text(row, CN["law_category"], 60),
+        "stance": text(row, CN["stance"], 40),
+        "prompt_excerpt": text(row, CN["prompt"], cell_limit),
+        "core_issue_excerpt": text(row, CN["core_issue"], cell_limit),
         "example_model": model,
-        "example_answer_excerpt": text(row, CN_FIRST_MODEL_ANSWER, 320),
-        "automated_score_summary": cn_score_summary(row),
-        "release_note": "excerpted sample only; full prompt and model matrix are not included",
+        "example_answer_excerpt": text(row, CN_FIRST_MODEL_ANSWER, cell_limit),
+        "score_summary": cn_score_summary(row, 40),
     }
+    return cap_record(record, cell_limit)
 
 
-def cn_common_record(record: dict[str, str]) -> dict[str, str]:
-    return {
-        "split": record["split"],
-        "review_id": record["review_id"],
-        "document_id": record["document_id"],
-        "issue_id": record["issue_id"],
-        "issue_title": record["issue_title"],
-        "jurisdiction_or_source": "China civil judgment, de-identified",
-        "law_category": record["law_category"],
-        "law_category_detail": record["law_category_detail"],
-        "stance": record["stance"],
-        "prompt_excerpt": record["prompt_excerpt"],
-        "reference_excerpt": record["core_issue_excerpt"],
-        "example_model": record["example_model"],
-        "example_answer_excerpt": record["example_answer_excerpt"],
-        "score_or_status": record["automated_score_summary"],
-    }
-
-
-def cn_index_record(row: tuple[object, ...]) -> dict[str, str]:
-    return {
-        "split": "real_case_cn",
-        "review_id": text(row, CN["review_id"]),
-        "document_id": text(row, CN["document_id"]),
-        "issue_id": text(row, CN["issue_id"]),
-        "issue_title": text(row, CN["issue_title"], 180),
-        "source_or_case_theme": text(row, CN["case_theme"], 180),
-        "jurisdiction_or_source": "China civil judgment, de-identified",
-        "law_category": text(row, CN["law_category"], 80),
-        "law_category_detail": text(row, CN["law_category_detail"], 100),
-        "stance": text(row, CN["stance"], 80),
-        "public_content_status": "metadata only; content appears only in excerpted sample rows",
-    }
-
-
-def bar_sample_record(row: tuple[object, ...], model: str) -> dict[str, str]:
-    return {
-        "split": "public_exam",
-        "review_id": text(row, BAR["review_id"]),
-        "document_id": text(row, BAR["document_id"]),
-        "issue_id": text(row, BAR["issue_id"]),
-        "issue_title": text(row, BAR["issue_title"], 140),
-        "source_country": text(row, BAR["source_country"], 80),
-        "source_legal_system": text(row, BAR["source_legal_system"], 140),
-        "source_body": text(row, BAR["source_body"], 140),
-        "source_url_domain": source_domain(cell(row, BAR["source_url"])),
-        "law_category": text(row, BAR["law_category"], 80),
-        "law_category_detail": text(row, BAR["law_category_detail"], 100),
-        "prompt_excerpt": text(row, BAR["prompt"], 360),
-        "reference_answer_excerpt": text(row, BAR["reference_answer"], 280),
+def bar_sample_record(row: tuple[object, ...], model: str, cell_limit: int) -> dict[str, str]:
+    record = {
+        "review_id": text(row, BAR["review_id"], 40),
+        "document_id": text(row, BAR["document_id"], 40),
+        "issue_id": text(row, BAR["issue_id"], 50),
+        "issue_title": text(row, BAR["issue_title"], 90),
+        "source_country": text(row, BAR["source_country"], 50),
+        "source_legal_system": text(row, BAR["source_legal_system"], 100),
+        "law_category": text(row, BAR["law_category"], 70),
+        "prompt_excerpt": text(row, BAR["prompt"], cell_limit),
+        "reference_answer_excerpt": text(row, BAR["reference_answer"], cell_limit),
         "example_model": model,
-        "example_answer_excerpt": text(row, BAR_FIRST_MODEL_ANSWER, 300),
-        "answer_match_score": text(row, BAR_FIRST_MODEL_SCORE, 80),
-        "release_note": "excerpted sample only; full reference answer and model matrix are not included",
+        "example_answer_excerpt": text(row, BAR_FIRST_MODEL_ANSWER, cell_limit),
+        "answer_match_score": text(row, BAR_FIRST_MODEL_SCORE, 30),
     }
+    return cap_record(record, cell_limit)
 
 
-def bar_common_record(record: dict[str, str]) -> dict[str, str]:
-    return {
-        "split": record["split"],
-        "review_id": record["review_id"],
-        "document_id": record["document_id"],
-        "issue_id": record["issue_id"],
-        "issue_title": record["issue_title"],
-        "jurisdiction_or_source": record["source_legal_system"],
-        "law_category": record["law_category"],
-        "law_category_detail": record["law_category_detail"],
-        "stance": "",
-        "prompt_excerpt": record["prompt_excerpt"],
-        "reference_excerpt": record["reference_answer_excerpt"],
-        "example_model": record["example_model"],
-        "example_answer_excerpt": record["example_answer_excerpt"],
-        "score_or_status": record["answer_match_score"],
-    }
-
-
-def bar_index_record(row: tuple[object, ...]) -> dict[str, str]:
-    return {
-        "split": "public_exam",
-        "review_id": text(row, BAR["review_id"]),
-        "document_id": text(row, BAR["document_id"]),
-        "issue_id": text(row, BAR["issue_id"]),
-        "issue_title": text(row, BAR["issue_title"], 180),
-        "source_or_case_theme": text(row, BAR["source_body"], 140),
-        "jurisdiction_or_source": text(row, BAR["source_legal_system"], 160),
-        "law_category": text(row, BAR["law_category"], 80),
-        "law_category_detail": text(row, BAR["law_category_detail"], 100),
-        "stance": "",
-        "public_content_status": "metadata only; content appears only in excerpted sample rows",
-    }
-
-
-def write_csv(path: Path, records: list[dict[str, str]], fieldnames: list[str]) -> None:
+def write_csv(path: Path, records: list[dict[str, str]], fieldnames: list[str], cell_limit: int) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8-sig") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(records)
+        for record in records:
+            writer.writerow(cap_record(record, cell_limit))
 
 
-def distribution_records(
+def top_counts(
     split: str,
+    dimension: str,
     rows: list[tuple[object, ...]],
-    dimensions: dict[str, int],
+    index: int,
+    *,
+    top_k: int,
+    cell_limit: int,
 ) -> list[dict[str, str]]:
-    records: list[dict[str, str]] = []
-    for dimension, index in dimensions.items():
-        counts = Counter(text(row, index) or "Unknown" for row in rows)
-        for value, count in sorted(counts.items(), key=lambda item: (-item[1], item[0])):
-            records.append(
-                {
-                    "split": split,
-                    "dimension": dimension,
-                    "value": value,
-                    "count": str(count),
-                }
-            )
-    return records
+    counts = Counter(text(row, index, cell_limit) or "Unknown" for row in rows)
+    return [
+        {
+            "split": split,
+            "dimension": dimension,
+            "value": value,
+            "count": str(count),
+        }
+        for value, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:top_k]
+    ]
+
+
+def source_domain_counts(rows: list[tuple[object, ...]], top_k: int) -> list[dict[str, str]]:
+    counts = Counter(source_domain(cell(row, BAR["source_url"])) or "Unknown" for row in rows)
+    return [
+        {
+            "split": "public_exam",
+            "dimension": "source_url_domain",
+            "value": value,
+            "count": str(count),
+        }
+        for value, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:top_k]
+    ]
 
 
 def model_configuration_records(workbook) -> list[dict[str, str]]:
@@ -346,13 +241,108 @@ def model_configuration_records(workbook) -> list[dict[str, str]]:
     ]
 
 
+def markdown_table(headers: list[str], rows: list[list[str]]) -> str:
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for row in rows:
+        escaped = [value.replace("|", "\\|") for value in row]
+        lines.append("| " + " | ".join(escaped) + " |")
+    return "\n".join(lines)
+
+
+def write_data_readme(
+    path: Path,
+    *,
+    cn_rows: list[tuple[object, ...]],
+    bar_rows: list[tuple[object, ...]],
+    cn_sample_count: int,
+    bar_sample_count: int,
+    model_count: int,
+    cell_limit: int,
+    distribution_rows: list[dict[str, str]],
+) -> None:
+    country_rows = [
+        [item["value"], item["count"]]
+        for item in distribution_rows
+        if item["split"] == "public_exam" and item["dimension"] == "source_country"
+    ]
+    cn_case_rows = [
+        [item["value"], item["count"]]
+        for item in distribution_rows
+        if item["split"] == "real_case_cn" and item["dimension"] == "case_type"
+    ]
+    bar_law_rows = [
+        [item["value"], item["count"]]
+        for item in distribution_rows
+        if item["split"] == "public_exam" and item["dimension"] == "law_category"
+    ]
+
+    content = f"""# Data Preview
+
+This folder contains a compact public preview of LegalBenchPro. The full workbook is
+not included in the repository while licensing, privacy, redistribution, and human
+validation review are still in progress.
+
+## What Is Public
+
+{markdown_table(
+    ["File", "Rows", "Purpose"],
+    [
+        ["sample/legalbenchpro_cn_judgments_sample.csv", str(cn_sample_count), "Short excerpts from the Chinese civil judgment split"],
+        ["sample/legalbenchpro_public_exam_sample.csv", str(bar_sample_count), "Short excerpts from the public legal-exam split"],
+        ["metadata/model_configurations.csv", str(model_count), "Model names and workbook sheet coverage"],
+        ["metadata/source_distribution.csv", str(len(distribution_rows)), "Top source, law-category, and case-type counts"],
+        ["metadata/dataset_summary.json", "1", "Machine-readable snapshot summary"],
+    ],
+)}
+
+All preview CSV cells are capped at {cell_limit} characters so that GitHub's table view
+stays readable. The preview does not include full prompts, full reference answers, full
+model-output matrices, or human review sheets.
+
+## Snapshot Counts
+
+{markdown_table(
+    ["Component", "Count"],
+    [
+        ["Chinese real-case issue-stance prompts", str(len(cn_rows))],
+        ["Public legal-exam instances", str(len(bar_rows))],
+        ["Model configurations", str(model_count)],
+        ["Human validation pilot rows", "10 Chinese real-case rows; 80 public-exam rows"],
+    ],
+)}
+
+## Public-Exam Country Coverage
+
+{markdown_table(["Source country", "Rows"], country_rows)}
+
+## Chinese Real-Case Coverage
+
+{markdown_table(["Case type", "Rows"], cn_case_rows)}
+
+## Public-Exam Legal Domains
+
+{markdown_table(["Law category", "Rows"], bar_law_rows)}
+
+## Release Note
+
+This is a research preview for manuscript and application review. The complete dataset
+is available only after final source-distribution, privacy, and human-validation checks.
+"""
+    path.write_text(content, encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workbook", required=True, help="Path to the private source workbook.")
     parser.add_argument("--out-dir", default="data", help="Output directory inside the repo.")
     parser.add_argument("--sample-per-split", type=int, default=None)
-    parser.add_argument("--cn-sample-size", type=int, default=24)
-    parser.add_argument("--bar-sample-size", type=int, default=80)
+    parser.add_argument("--cn-sample-size", type=int, default=10)
+    parser.add_argument("--bar-sample-size", type=int, default=20)
+    parser.add_argument("--max-cell-chars", type=int, default=180)
+    parser.add_argument("--distribution-top-k", type=int, default=8)
     args = parser.parse_args()
 
     if args.sample_per_split is not None:
@@ -372,12 +362,13 @@ def main() -> None:
 
     cn_model = first_model_name(cn_first, cn_second)
     bar_model = first_model_name(bar_first, bar_second)
+    model_records = model_configuration_records(workbook)
 
-    cn_full_sample = [cn_sample_record(row, cn_model) for row in cn_rows]
-    bar_full_sample = [bar_sample_record(row, bar_model) for row in bar_rows]
+    cn_full_sample = [cn_sample_record(row, cn_model, args.max_cell_chars) for row in cn_rows]
+    bar_full_sample = [bar_sample_record(row, bar_model, args.max_cell_chars) for row in bar_rows]
     cn_sample = stratified_sample(
         cn_full_sample,
-        ("law_category", "law_category_detail", "stance"),
+        ("law_category", "case_type", "stance"),
         args.cn_sample_size,
     )
     bar_sample = stratified_sample(
@@ -386,54 +377,56 @@ def main() -> None:
         args.bar_sample_size,
     )
 
-    write_csv(sample_dir / "legalbenchpro_cn_judgments_sample.csv", cn_sample, CN_SAMPLE_FIELDS)
-    write_csv(sample_dir / "legalbenchpro_public_exam_sample.csv", bar_sample, BAR_SAMPLE_FIELDS)
     write_csv(
-        sample_dir / "legalbenchpro_public_sample.csv",
-        [cn_common_record(record) for record in cn_sample]
-        + [bar_common_record(record) for record in bar_sample],
-        COMMON_SAMPLE_FIELDS,
+        sample_dir / "legalbenchpro_cn_judgments_sample.csv",
+        cn_sample,
+        CN_SAMPLE_FIELDS,
+        args.max_cell_chars,
     )
-
-    cn_index = [cn_index_record(row) for row in cn_rows]
-    bar_index = [bar_index_record(row) for row in bar_rows]
-    write_csv(metadata_dir / "cn_judgments_index.csv", cn_index, INDEX_FIELDS)
-    write_csv(metadata_dir / "public_exam_index.csv", bar_index, INDEX_FIELDS)
+    write_csv(
+        sample_dir / "legalbenchpro_public_exam_sample.csv",
+        bar_sample,
+        BAR_SAMPLE_FIELDS,
+        args.max_cell_chars,
+    )
     write_csv(
         metadata_dir / "model_configurations.csv",
-        model_configuration_records(workbook),
+        model_records,
         ["model_index", "model_name", "appears_in_sheets"],
+        args.max_cell_chars,
     )
 
-    distributions = distribution_records(
-        "real_case_cn",
-        cn_rows,
-        {
-            "case_type": CN["case_type"],
-            "law_category": CN["law_category"],
-            "law_category_detail": CN["law_category_detail"],
-            "stance": CN["stance"],
-        },
-    ) + distribution_records(
-        "public_exam",
-        bar_rows,
-        {
-            "source_country": BAR["source_country"],
-            "source_legal_system": BAR["source_legal_system"],
-            "law_category": BAR["law_category"],
-            "law_category_detail": BAR["law_category_detail"],
-        },
+    distributions = (
+        top_counts("real_case_cn", "case_type", cn_rows, CN["case_type"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + top_counts("real_case_cn", "law_category", cn_rows, CN["law_category"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + top_counts("real_case_cn", "law_category_detail", cn_rows, CN["law_category_detail"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + top_counts("real_case_cn", "stance", cn_rows, CN["stance"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + top_counts("public_exam", "source_country", bar_rows, BAR["source_country"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + top_counts("public_exam", "source_legal_system", bar_rows, BAR["source_legal_system"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + top_counts("public_exam", "law_category", bar_rows, BAR["law_category"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + top_counts("public_exam", "law_category_detail", bar_rows, BAR["law_category_detail"], top_k=args.distribution_top_k, cell_limit=args.max_cell_chars)
+        + source_domain_counts(bar_rows, args.distribution_top_k)
     )
     write_csv(
         metadata_dir / "source_distribution.csv",
         distributions,
         ["split", "dimension", "value", "count"],
+        args.max_cell_chars,
     )
 
     summaries = summarize_workbook(workbook_path)
     metadata = {
         "source_workbook_name": workbook_path.name,
-        "release_status": "expanded public sample plus metadata indexes; full workbook is private/local until licensing review",
+        "release_status": "compact public preview; full workbook is private/local until licensing review",
+        "preview_policy": {
+            "cn_sample_rows": len(cn_sample),
+            "public_exam_sample_rows": len(bar_sample),
+            "max_csv_cell_characters": args.max_cell_chars,
+            "full_prompt_matrix_public": False,
+            "full_reference_answers_public": False,
+            "full_model_outputs_public": False,
+            "human_review_sheets_public": False,
+        },
         "sheets": [
             {
                 "title": item.title,
@@ -446,10 +439,7 @@ def main() -> None:
         "public_snapshot_counts": {
             "cn_real_case_issue_stance_prompts": len(cn_rows),
             "public_exam_instances": len(bar_rows),
-            "cn_public_sample_rows": len(cn_sample),
-            "public_exam_sample_rows": len(bar_sample),
-            "cn_public_index_rows": len(cn_index),
-            "public_exam_index_rows": len(bar_index),
+            "model_configurations": len(model_records),
             "human_cn_pilot_rows": next(
                 item.data_rows for item in summaries if item.title == "Human_CN_Judgments"
             ),
@@ -458,14 +448,13 @@ def main() -> None:
             ),
         },
         "public_files": {
+            "readme": "data/README.md",
             "content_samples": [
                 "data/sample/legalbenchpro_cn_judgments_sample.csv",
                 "data/sample/legalbenchpro_public_exam_sample.csv",
-                "data/sample/legalbenchpro_public_sample.csv",
             ],
-            "metadata_indexes": [
-                "data/metadata/cn_judgments_index.csv",
-                "data/metadata/public_exam_index.csv",
+            "metadata": [
+                "data/metadata/dataset_summary.json",
                 "data/metadata/model_configurations.csv",
                 "data/metadata/source_distribution.csv",
             ],
@@ -477,11 +466,20 @@ def main() -> None:
         encoding="utf-8-sig",
     )
 
+    write_data_readme(
+        out_dir / "README.md",
+        cn_rows=cn_rows,
+        bar_rows=bar_rows,
+        cn_sample_count=len(cn_sample),
+        bar_sample_count=len(bar_sample),
+        model_count=len(model_records),
+        cell_limit=args.max_cell_chars,
+        distribution_rows=distributions,
+    )
+
+    print(f"Wrote {out_dir / 'README.md'}")
     print(f"Wrote {sample_dir / 'legalbenchpro_cn_judgments_sample.csv'}")
     print(f"Wrote {sample_dir / 'legalbenchpro_public_exam_sample.csv'}")
-    print(f"Wrote {sample_dir / 'legalbenchpro_public_sample.csv'}")
-    print(f"Wrote {metadata_dir / 'cn_judgments_index.csv'}")
-    print(f"Wrote {metadata_dir / 'public_exam_index.csv'}")
     print(f"Wrote {metadata_dir / 'model_configurations.csv'}")
     print(f"Wrote {metadata_dir / 'source_distribution.csv'}")
     print(f"Wrote {metadata_path}")
