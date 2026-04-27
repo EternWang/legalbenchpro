@@ -4,7 +4,6 @@ import argparse
 import csv
 import json
 import re
-import textwrap
 from collections import Counter, OrderedDict
 from pathlib import Path
 from urllib.parse import urlparse
@@ -498,145 +497,6 @@ def write_csv(path: Path, records: list[dict[str, str]], fieldnames: list[str], 
             writer.writerow(cap_record(record, cell_limit))
 
 
-def wrap_table_cell(value: str, width: int = 36) -> str:
-    normalized = " ".join(str(value or "").split())
-    if not normalized:
-        return ""
-    lines = textwrap.wrap(
-        normalized,
-        width=width,
-        break_long_words=False,
-        break_on_hyphens=False,
-    )
-    escaped = [
-        line.replace("&", "&amp;").replace("|", "&#124;").replace("<", "&lt;").replace(">", "&gt;")
-        for line in lines
-    ]
-    return "<br>".join(escaped)
-
-
-def write_preview_tables(path: Path, cn_sample: list[dict[str, str]], bar_sample: list[dict[str, str]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    cn_rows = [
-        [
-            f"`{record['review_id']}`",
-            wrap_table_cell(f"{record['law_category']} / {record['case_type_en']}", 28),
-            wrap_table_cell(record["stance"], 22),
-            wrap_table_cell(record["issue_title_en"], 34),
-            wrap_table_cell(record["task_preview"], 42),
-            wrap_table_cell(record["court_result_preview"], 42),
-            wrap_table_cell(record["score_summary"], 18),
-        ]
-        for record in cn_sample
-    ]
-    bar_rows = [
-        [
-            f"`{record['review_id']}`",
-            wrap_table_cell(f"{record['source_country']} / {record['law_category']}", 28),
-            wrap_table_cell(record["issue_title_en"], 34),
-            wrap_table_cell(record["task_preview"], 42),
-            wrap_table_cell(record["reference_answer_preview"], 42),
-            wrap_table_cell(f"{record['example_model']}; score={record['answer_match_score']}", 24),
-        ]
-        for record in bar_sample
-    ]
-    content = "\n\n".join(
-        [
-            "# Preview Tables",
-            (
-                "This display-oriented view wraps long fields inside table cells. The CSV "
-                "files remain the machine-readable preview, and `preview_cases.md` provides "
-                "a longer card-style reading view."
-            ),
-            "## Chinese Real-Case Split",
-            markdown_table(
-                ["ID", "Domain / Case Type", "Stance", "Issue", "Task", "Court Result", "Score"],
-                cn_rows,
-            ),
-            "## Public-Exam Split",
-            markdown_table(
-                ["ID", "Source / Domain", "Issue", "Task", "Reference Answer", "Example / Score"],
-                bar_rows,
-            ),
-        ]
-    )
-    path.write_text(content + "\n", encoding="utf-8")
-
-
-def write_case_cards(path: Path, cn_sample: list[dict[str, str]], bar_sample: list[dict[str, str]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    lines = [
-        "# Preview Cases",
-        "",
-        "This page presents the public sample in a wider, human-readable format. The CSV",
-        "files remain the machine-readable preview; this page gives each case a full-width",
-        "collapsible card so task, answer, and scoring fields can be read without a wide",
-        "spreadsheet layout. For compact wrapped tables, see `preview_tables.md`.",
-        "",
-        "## Chinese Real-Case Split",
-        "",
-    ]
-    for record in cn_sample:
-        title = f"{record['review_id']} - {record['issue_title_en']} - {record['stance']}"
-        lines.extend(
-            [
-                f"<details><summary>{title}</summary>",
-                "",
-                f"- **Document / Issue:** `{record['document_id']}` / `{record['issue_id']}`",
-                f"- **Case Type:** {record['case_type_en']}",
-                f"- **Law Category:** {record['law_category']}",
-                f"- **Example Model:** {record['example_model']}",
-                f"- **Score Summary:** {record['score_summary']}",
-                "",
-                "**Task**",
-                "",
-                f"{record['task_preview']}",
-                "",
-                "**Court Result**",
-                "",
-                f"{record['court_result_preview']}",
-                "",
-                "**Example Answer**",
-                "",
-                f"{record['example_answer_preview']}",
-                "",
-                "</details>",
-                "",
-            ]
-        )
-
-    lines.extend(["## Public-Exam Split", ""])
-    for record in bar_sample:
-        title = f"{record['review_id']} - {record['source_country']} - {record['law_category']}"
-        lines.extend(
-            [
-                f"<details><summary>{title}</summary>",
-                "",
-                f"- **Document / Issue:** `{record['document_id']}` / `{record['issue_id']}`",
-                f"- **Issue:** {record['issue_title_en']}",
-                f"- **Source Legal System:** {record['source_legal_system']}",
-                f"- **Example Model:** {record['example_model']}",
-                f"- **Answer-Match Score:** {record['answer_match_score']}",
-                "",
-                "**Task**",
-                "",
-                f"{record['task_preview']}",
-                "",
-                "**Reference Answer**",
-                "",
-                f"{record['reference_answer_preview']}",
-                "",
-                "**Example Answer**",
-                "",
-                f"{record['example_answer_preview']}",
-                "",
-                "</details>",
-                "",
-            ]
-        )
-    path.write_text("\n".join(lines), encoding="utf-8")
-
-
 def top_counts(
     split: str,
     dimension: str,
@@ -751,8 +611,6 @@ validation review are still in progress.
 {markdown_table(
     ["File", "Rows", "Purpose"],
     [
-        ["sample/preview_tables.md", str(cn_sample_count + bar_sample_count), "Wrapped Markdown tables for GitHub display"],
-        ["sample/preview_cases.md", str(cn_sample_count + bar_sample_count), "Wide Markdown case cards for human review"],
         ["sample/legalbenchpro_cn_judgments_sample.csv", str(cn_sample_count), "Machine-readable preview of the Chinese civil judgment split"],
         ["sample/legalbenchpro_public_exam_sample.csv", str(bar_sample_count), "Machine-readable preview of the public legal-exam split"],
     ],
@@ -769,9 +627,7 @@ validation review are still in progress.
     ],
 )}
 
-Preview CSV cells are capped at {cell_limit} characters. For GitHub display, use
-`sample/preview_tables.md`, which wraps long fields inside table cells. For a wider
-case-by-case reading view, use `sample/preview_cases.md`. The preview does not include
+Preview CSV cells are capped at {cell_limit} characters. The preview does not include
 full prompts, full reference answers, full model-output matrices, or human review
 sheets.
 
@@ -876,8 +732,6 @@ def main() -> None:
         BAR_SAMPLE_FIELDS,
         args.max_cell_chars,
     )
-    write_case_cards(sample_dir / "preview_cases.md", cn_sample, bar_sample)
-    write_preview_tables(sample_dir / "preview_tables.md", cn_sample, bar_sample)
     write_csv(
         metadata_dir / "model_configurations.csv",
         model_records,
@@ -939,8 +793,6 @@ def main() -> None:
         "public_files": {
             "readme": "data/README.md",
             "content_samples": [
-                "data/sample/preview_tables.md",
-                "data/sample/preview_cases.md",
                 "data/sample/legalbenchpro_cn_judgments_sample.csv",
                 "data/sample/legalbenchpro_public_exam_sample.csv",
             ],
@@ -969,8 +821,6 @@ def main() -> None:
     )
 
     print(f"Wrote {out_dir / 'README.md'}")
-    print(f"Wrote {sample_dir / 'preview_cases.md'}")
-    print(f"Wrote {sample_dir / 'preview_tables.md'}")
     print(f"Wrote {sample_dir / 'legalbenchpro_cn_judgments_sample.csv'}")
     print(f"Wrote {sample_dir / 'legalbenchpro_public_exam_sample.csv'}")
     print(f"Wrote {metadata_dir / 'model_configurations.csv'}")
