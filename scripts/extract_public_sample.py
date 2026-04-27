@@ -172,7 +172,7 @@ def public_exam_issue_preview(row: tuple[object, ...], limit: int) -> str:
     raw_title = text(row, BAR["issue_title"], limit)
     if not has_han(raw_title):
         return raw_title
-    return clip_text(f"Chinese public legal-exam item in {text(row, BAR['law_category'], 80)}", limit)
+    return clip_text(f"Official public legal-exam item in {text(row, BAR['law_category'], 80)}", limit)
 
 
 def nonempty(row: tuple[object, ...]) -> bool:

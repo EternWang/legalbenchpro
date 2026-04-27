@@ -452,7 +452,7 @@ Marks: 2 The plaintiff should bring an urgent, ex parte application for an inter
 <details><summary>EXTCN008 - China - Administrative Law</summary>
 
 - **Document / Issue:** `CN-public-exam-EXTCN008` / `Q01`
-- **Issue:** Chinese public legal-exam item in Administrative Law
+- **Issue:** Official public legal-exam item in Administrative Law
 - **Source Legal System:** People's Republic of China
 - **Example Model:** Grok 4.20
 - **Answer-Match Score:** 4
@@ -474,7 +474,7 @@ The model answer gives a rule-application-conclusion response for the same publi
 <details><summary>EXTCN028 - China - Civil / Civil Procedure</summary>
 
 - **Document / Issue:** `CN-public-exam-EXTCN028` / `Q01`
-- **Issue:** Chinese public legal-exam item in Civil / Civil Procedure
+- **Issue:** Official public legal-exam item in Civil / Civil Procedure
 - **Source Legal System:** People's Republic of China
 - **Example Model:** Grok 4.20
 - **Answer-Match Score:** 1
@@ -496,7 +496,7 @@ The model answer gives a rule-application-conclusion response for the same publi
 <details><summary>EXTCN093 - China - Civil Law</summary>
 
 - **Document / Issue:** `CN-public-exam-EXTCN093` / `Q093`
-- **Issue:** Chinese public legal-exam item in Civil Law
+- **Issue:** Official public legal-exam item in Civil Law
 - **Source Legal System:** People's Republic of China
 - **Example Model:** Grok 4.20
 - **Answer-Match Score:** 1.0
@@ -518,7 +518,7 @@ The model answer gives a rule-application-conclusion response for the same publi
 <details><summary>EXTCN097 - China - Civil Procedure</summary>
 
 - **Document / Issue:** `CN-public-exam-EXTCN097` / `Q097`
-- **Issue:** Chinese public legal-exam item in Civil Procedure
+- **Issue:** Official public legal-exam item in Civil Procedure
 - **Source Legal System:** People's Republic of China
 - **Example Model:** Grok 4.20
 - **Answer-Match Score:** 2.0
@@ -540,7 +540,7 @@ The model answer gives a rule-application-conclusion response for the same publi
 <details><summary>EXTCN001 - China - Commercial / Company Law</summary>
 
 - **Document / Issue:** `CN-public-exam-EXTCN001` / `Q01`
-- **Issue:** Chinese public legal-exam item in Commercial / Company Law
+- **Issue:** Official public legal-exam item in Commercial / Company Law
 - **Source Legal System:** People's Republic of China
 - **Example Model:** Grok 4.20
 - **Answer-Match Score:** 2
@@ -562,7 +562,7 @@ The model answer gives a rule-application-conclusion response for the same publi
 <details><summary>EXTCN014 - China - Criminal Law</summary>
 
 - **Document / Issue:** `CN-public-exam-EXTCN014` / `Q01`
-- **Issue:** Chinese public legal-exam item in Criminal Law
+- **Issue:** Official public legal-exam item in Criminal Law
 - **Source Legal System:** People's Republic of China
 - **Example Model:** Grok 4.20
 - **Answer-Match Score:** 0.0
@@ -584,7 +584,7 @@ The model answer gives a rule-application-conclusion response for the same publi
 <details><summary>EXTCN022 - China - Criminal Procedure</summary>
 
 - **Document / Issue:** `CN-public-exam-EXTCN022` / `Q01`
-- **Issue:** Chinese public legal-exam item in Criminal Procedure
+- **Issue:** Official public legal-exam item in Criminal Procedure
 - **Source Legal System:** People's Republic of China
 - **Example Model:** Grok 4.20
 - **Answer-Match Score:** 2
