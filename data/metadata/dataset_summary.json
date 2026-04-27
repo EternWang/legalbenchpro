@@ -144,6 +144,7 @@
   "public_files": {
     "readme": "data/README.md",
     "content_samples": [
+      "data/sample/preview_tables.md",
       "data/sample/preview_cases.md",
       "data/sample/legalbenchpro_cn_judgments_sample.csv",
       "data/sample/legalbenchpro_public_exam_sample.csv"

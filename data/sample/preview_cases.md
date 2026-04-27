@@ -3,7 +3,7 @@
 This page presents the public sample in a wider, human-readable format. The CSV
 files remain the machine-readable preview; this page gives each case a full-width
 collapsible card so task, answer, and scoring fields can be read without a wide
-spreadsheet layout.
+spreadsheet layout. For compact wrapped tables, see `preview_tables.md`.
 
 ## Chinese Real-Case Split
 

@@ -8,6 +8,7 @@ validation review are still in progress.
 
 | File | Rows | Purpose |
 | --- | --- | --- |
+| sample/preview_tables.md | 30 | Wrapped Markdown tables for GitHub display |
 | sample/preview_cases.md | 30 | Wide Markdown case cards for human review |
 | sample/legalbenchpro_cn_judgments_sample.csv | 10 | Machine-readable preview of the Chinese civil judgment split |
 | sample/legalbenchpro_public_exam_sample.csv | 20 | Machine-readable preview of the public legal-exam split |
@@ -20,10 +21,11 @@ validation review are still in progress.
 | metadata/source_distribution.csv | 55 | Top source, law-category, and case-type counts |
 | metadata/dataset_summary.json | 1 | Machine-readable snapshot summary |
 
-Preview CSV cells are capped at 420 characters. For a wider display, use
-`sample/preview_cases.md`, which shows each sample row as a collapsible case card. The
-preview does not include full prompts, full reference answers, full model-output
-matrices, or human review sheets.
+Preview CSV cells are capped at 420 characters. For GitHub display, use
+`sample/preview_tables.md`, which wraps long fields inside table cells. For a wider
+case-by-case reading view, use `sample/preview_cases.md`. The preview does not include
+full prompts, full reference answers, full model-output matrices, or human review
+sheets.
 
 China public-exam preview rows use concise English translations and summaries of the
 source prompt, official answer, and example model answer. The complete source-language
