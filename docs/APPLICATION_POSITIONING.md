@@ -3,16 +3,15 @@
 This repository is meant to show research ability in AI-assisted social science,
 institutional text analysis, and empirical legal/NLP evaluation.
 
-## Core Strengths Demonstrated
+## Core Strengths
 
 ### Fit For AI-Native Social-Science Research
 
-LegalBenchPro is the most relevant project in this portfolio for research groups that
-combine AI tools, institutional text data, and quantitative evaluation. It shows the
-ability to move from a substantive document-analysis problem to a version-controlled
-research artifact: source constraints, prompt design, model runs, scoring protocols,
-metadata, release decisions, and manuscript framing are documented together instead of
-being left as informal notes.
+LegalBenchPro is designed for research groups that combine AI tools, institutional text
+data, and quantitative evaluation. It moves from a substantive document-analysis
+problem to a version-controlled research artifact: source constraints, prompt design,
+model runs, scoring protocols, metadata, release decisions, and manuscript framing are
+documented together instead of being left as informal notes.
 
 ### Research Engineering
 
@@ -60,7 +59,7 @@ public snapshot includes a safe sample, dataset metadata, scoring protocols, man
 materials, and validation checks while full human validation and data-release review
 remain in progress.
 
-## How This Supports A Research Application
+## Why The Design Matters
 
 The strongest story to tell is not only that the dataset is large. It is that the
 project shows a full research loop: define a substantive institutional-text problem,
