@@ -16,6 +16,10 @@ protocol, audit workflow, manuscript materials, compact content previews, and su
 metadata while keeping the complete workbook private until licensing, privacy, and
 redistribution review are complete.
 
+<p align="center">
+  <img src="outputs/figures/research_snapshot.png" alt="LegalBenchPro public research snapshot" width="900">
+</p>
+
 ## At a Glance
 
 - **Scope:** Chinese institutional and legal text, with both scalable
@@ -61,11 +65,10 @@ defensible argument structure. This project contributes:
 - a reproducible public workflow for sample extraction, metadata generation, and
   manuscript tracking.
 
-## What To Inspect
+## Where To Start
 
 For a quick review of the project, start with:
 
-- `docs/APPLICATION_POSITIONING.md` for a concise research-fit summary;
 - `paper/introduction_revised.tex` for the current manuscript introduction;
 - `docs/DATA_CARD.md` for scope, counts, intended uses, and release constraints;
 - `docs/ANNOTATION_PROTOCOL.md` for human-validation and scoring design;
@@ -99,6 +102,7 @@ data/
   metadata/source_distribution.csv
 scripts/
   extract_public_sample.py            # Rebuilds the public sample and metadata
+  render_research_snapshot.py         # Renders the README overview figure
 src/legalbenchpro/
   workbook.py                         # Small workbook helpers used by scripts
 tests/
@@ -121,6 +125,7 @@ python .\scripts\extract_public_sample.py `
   --cn-sample-size 10 `
   --bar-sample-size 20 `
   --max-cell-chars 420
+python .\scripts\render_research_snapshot.py
 ```
 
 ## Validation
