@@ -49,8 +49,11 @@ def card(ax: plt.Axes, x: float, y: float, w: float, h: float, title: str, body:
         linewidth=1.0,
     )
     ax.add_patch(box)
-    ax.text(x + 0.035, y + h - 0.07, title, ha="left", va="top", fontsize=11, color=color, weight="bold")
-    ax.text(x + 0.035, y + h - 0.145, body, ha="left", va="top", fontsize=9.3, color=INK, linespacing=1.25)
+    title_y = y + h - 0.075 if body else y + h / 2
+    title_va = "top" if body else "center"
+    ax.text(x + 0.035, title_y, title, ha="left", va=title_va, fontsize=10.2, color=color, weight="bold")
+    if body:
+        ax.text(x + 0.035, y + h - 0.215, body, ha="left", va="top", fontsize=8.45, color=INK, linespacing=1.18)
 
 
 def load_top_rows(split: str, dimension: str, n: int) -> list[tuple[str, int]]:
