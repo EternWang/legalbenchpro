@@ -1,9 +1,9 @@
 # LegalBenchPro
 
-LegalBenchPro is an EMNLP-targeted research benchmark for evaluating large language
-models on open-ended legal reasoning. The project asks whether models that perform well
-on scalable public legal-exam tasks also transfer to de-identified, practice-oriented
-case analysis.
+LegalBenchPro is a research benchmark for evaluating large language models on
+open-ended legal reasoning, with a manuscript in preparation. The project asks whether
+models that perform well on scalable public legal-exam tasks also transfer to
+de-identified, practice-oriented case analysis.
 
 The benchmark separates two evaluation settings:
 
@@ -11,10 +11,18 @@ The benchmark separates two evaluation settings:
 - de-identified Chinese civil judgment prompts that require stance-aware,
   statute-grounded legal analysis.
 
-This repository is a public research snapshot. It exposes the dataset schema, scoring
-protocol, audit workflow, manuscript materials, compact content previews, and summary
-metadata while keeping the complete workbook private until licensing, privacy, and
-redistribution review are complete.
+**Status (as of April 2026):** manuscript draft in preparation; 20,768 LLM response
+cells collected across 22 model configurations; human-validation pilot underway; full
+data release pending licensing, privacy, and source-distribution review.
+
+**Draft introduction:** [paper/LegalBenchPro_intro_draft.pdf](paper/LegalBenchPro_intro_draft.pdf)
+
+## Public Preview Overview
+
+<img src="outputs/figures/benchmark_overview.png" alt="LegalBenchPro public preview overview showing task instances, LLM response cells, model configurations, validation rows, source coverage, and Chinese case split design" width="920">
+
+The figure is generated from committed public metadata:
+`data/metadata/dataset_summary.json` and `data/metadata/source_distribution.csv`.
 
 ## At a Glance
 
@@ -24,10 +32,11 @@ redistribution review are complete.
   scoring regimes, and staged human-validation plans.
 - **Reproducibility:** Python sample extraction, machine-readable metadata, tests,
   data-card documentation, and an explicit workflow audit trail.
-- **Release status:** public research preview; full data release is held back pending
-  privacy, licensing, and validation review.
+- **Research workflow:** public artifacts are organized so that readers can inspect the
+  path from workbook-derived metadata to samples, documentation, figures, and
+  manuscript materials.
 
-## Snapshot
+## Snapshot Counts
 
 | Component | Current count | Evaluation design |
 | --- | ---: | --- |
@@ -38,11 +47,10 @@ redistribution review are complete.
 | Main multimodel response cells | 20,768 LLM-generated responses | 944 task instances x 22 model configurations |
 | Human validation pilots | 10 real-case rows; 80 public-exam rows | Staged for reviewer calibration and agreement analysis |
 
-The public snapshot includes 10 translated preview rows from the Chinese
-real-case split, 20 preview rows from the public-exam split, model-configuration
-metadata, and compact source/domain distribution tables. Preview CSV cells are capped
-at 420 characters. The repository does not include the full prompt matrix, full
-reference answers, full model outputs, row-level full indexes, or human review sheets.
+The public preview includes 10 translated preview rows from the Chinese real-case
+split, 20 preview rows from the public-exam split, model-configuration metadata, and
+compact source/domain distribution tables. Preview CSV cells are capped at 420
+characters.
 
 ## Research Contribution
 
@@ -58,30 +66,39 @@ defensible argument structure. This project contributes:
   LLM-generated response cells;
 - a scoring protocol that distinguishes answer matching from citation-aware legal
   reasoning;
-- a reproducible public workflow for sample extraction, metadata generation, and
-  manuscript tracking.
+- a reproducible public workflow for sample extraction, metadata generation, figure
+  rendering, and manuscript tracking.
+
+For empirical social-science research, the project is also a small example of how
+LLM-assisted analysis can be made auditable: institutional text is treated as data,
+model outputs are treated as evidence to be validated rather than accepted, and scoring
+decisions are documented through schemas, rubrics, provenance notes, and rerunnable
+scripts.
 
 ## Where To Start
 
 For a quick review of the project, start with:
 
-- `paper/introduction_revised.tex` for the current manuscript introduction;
+- [paper/LegalBenchPro_intro_draft.pdf](paper/LegalBenchPro_intro_draft.pdf) for the
+  current draft introduction;
 - `docs/DATA_CARD.md` for scope, counts, intended uses, and release constraints;
 - `docs/ANNOTATION_PROTOCOL.md` for human-validation and scoring design;
+- `docs/SCORING_RUBRIC.md` for the compact scoring rubric;
 - `docs/AI_WORKFLOW.md` for auditability and AI-assistance safeguards;
 - `data/README.md` for a compact public data preview;
 - `data/sample/legalbenchpro_cn_judgments_sample.csv` for real-case content excerpts;
 - `data/sample/legalbenchpro_public_exam_sample.csv` for public-exam content excerpts;
 - `data/metadata/source_distribution.csv` and `data/metadata/model_configurations.csv`
   for concise metadata;
-- `scripts/extract_public_sample.py` for the reproducible sample-export workflow.
+- `scripts/extract_public_sample.py` and `scripts/render_benchmark_overview.py` for
+  the reproducible export and figure-rendering workflow.
 
 ## Repository Map
 
 ```text
 paper/
-  LegalBenchPro_intro_draft.pdf       # Overleaf PDF snapshot of the current draft
-  introduction_revised.tex            # Dataset-aligned introduction ready for Overleaf
+  LegalBenchPro_intro_draft.pdf       # Current draft introduction
+  introduction_revised.tex            # Dataset-aligned introduction for Overleaf
   manuscript_working_draft.md         # Working paper skeleton for GitHub readers
 docs/
   DATA_CARD.md                        # Dataset scope, fields, release status, risks
@@ -96,23 +113,44 @@ data/
   metadata/dataset_summary.json
   metadata/model_configurations.csv
   metadata/source_distribution.csv
+outputs/
+  figures/benchmark_overview.png      # Public metadata overview figure
 scripts/
   extract_public_sample.py            # Rebuilds the public sample and metadata
+  render_benchmark_overview.py        # Rebuilds the README overview figure
 src/legalbenchpro/
   workbook.py                         # Small workbook helpers used by scripts
 tests/
   test_workbook.py                    # Lightweight smoke tests for public utilities
 ```
 
-## Reproduce The Public Snapshot
+## Reproduce Public Artifacts
 
-The full workbook is not committed. To regenerate the public sample from a local
-private workbook:
+If you have access to the private workbook, the public sample and metadata can be
+regenerated from the local source file.
+
+macOS/Linux:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+export PYTHONPATH="$PWD/src"
+python scripts/extract_public_sample.py \
+  --workbook "/path/to/Data Set.xlsx" \
+  --out-dir data \
+  --cn-sample-size 10 \
+  --bar-sample-size 20 \
+  --max-cell-chars 420
+python scripts/render_benchmark_overview.py
+```
+
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 $env:PYTHONPATH = "$PWD\src"
 python .\scripts\extract_public_sample.py `
   --workbook "C:\path\to\Data Set.xlsx" `
@@ -120,11 +158,22 @@ python .\scripts\extract_public_sample.py `
   --cn-sample-size 10 `
   --bar-sample-size 20 `
   --max-cell-chars 420
+python .\scripts\render_benchmark_overview.py
 ```
 
 ## Validation
 
 The repository includes a small test suite:
+
+macOS/Linux:
+
+```bash
+export PYTHONPATH="$PWD/src"
+python -m unittest discover -s tests
+python -m compileall scripts src
+```
+
+Windows PowerShell:
 
 ```powershell
 $env:PYTHONPATH = "$PWD\src"
@@ -137,7 +186,8 @@ python -m compileall scripts src
 This repository is intentionally organized as a research-engineering artifact, not only
 as a dataset announcement. It demonstrates:
 
-- Python scripts that regenerate public samples and metadata from a private workbook;
+- Python scripts that regenerate public samples, metadata, and the README overview
+  figure from structured inputs;
 - explicit dataset documentation, release constraints, and annotation protocol files;
 - lightweight tests for workbook parsing utilities;
 - an audit trail for AI-assisted coding and research workflow decisions;
@@ -147,12 +197,19 @@ as a dataset announcement. It demonstrates:
 
 This is a research preview, not a final benchmark release. The public content samples
 are excerpted and do not include the full prompt matrix, full reference answers, full
-model outputs, or human review sheets. The full dataset will require a final licensing,
-privacy, and source-distribution review before release.
+model outputs, row-level full indexes, or human review sheets. The full dataset will
+require final licensing, privacy, source-distribution, and validation review before
+release.
 
-## Author
+## Author and Collaborators
 
-Hongyu Wang. Manuscript and benchmark in preparation.
+Initiated and led by Hongyu Wang.
+
+Regular project meetings and manuscript/benchmark feedback: Yilun Zhao, Yale NLP Lab
+PhD student.
+
+Additional project feedback and collaboration: Yixin Liu, Yale NLP Lab; Xuandong Zhao,
+UC Berkeley.
 
 ## Disclaimer
 
