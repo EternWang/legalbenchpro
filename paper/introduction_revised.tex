@@ -56,7 +56,8 @@ evaluation regimes themselves, including when automated or model-assisted scorin
 aligns with human legal assessment and when it diverges.
 
 To support these analyses, our current benchmark snapshot evaluates 22 model
-configurations across both splits. The public-exam split is scored by
+configurations across both splits, yielding 20,768 LLM-generated response cells.
+The public-exam split is scored by
 reference-based answer consistency. The real-case split is scored with a
 citation-aware rubric designed for applied legal reasoning. This rubric focuses on
 whether a response selects legally responsive authorities, correctly recovers the
@@ -87,11 +88,11 @@ Our contributions are fourfold.
     paired issue-stance prompts derived from real judgments.
 
     \item We evaluate 22 model configurations across standard modes,
-    reasoning-enabled modes, and explicit step-by-step prompting setups, enabling
-    controlled comparisons within and across model families.
+    reasoning-enabled modes, and explicit step-by-step prompting setups, yielding
+    20,768 LLM-generated response cells for controlled comparisons within and
+    across model families.
 
     \item We provide a citation-aware scoring and human-validation workflow for
     comparing reference-based public-exam evaluation with practice-oriented legal
     reasoning assessment.
 \end{enumerate}
-

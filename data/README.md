@@ -34,7 +34,12 @@ materials remain in the private workbook pending release review.
 | Chinese real-case issue-stance prompts | 76 |
 | Public legal-exam instances | 868 |
 | Model configurations | 22 |
+| Main multimodel response cells | 20,768 |
 | Human validation pilot rows | 10 Chinese real-case rows; 80 public-exam rows |
+
+The main multimodel sheets contain 20,768 LLM-generated
+response cells: 1,672 from the Chinese real-case split and
+19,096 from the public-exam split.
 
 ## Public-Exam Country Coverage
 

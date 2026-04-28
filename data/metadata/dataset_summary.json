@@ -138,6 +138,10 @@
     "cn_real_case_issue_stance_prompts": 76,
     "public_exam_instances": 868,
     "model_configurations": 22,
+    "main_task_instances": 944,
+    "cn_real_case_model_response_cells": 1672,
+    "public_exam_model_response_cells": 19096,
+    "main_multimodel_response_cells": 20768,
     "human_cn_pilot_rows": 10,
     "human_bar_pilot_rows": 80
   },

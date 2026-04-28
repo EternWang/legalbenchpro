@@ -35,6 +35,7 @@ redistribution review are complete.
 | Source judgments | 15 de-identified civil judgments | Paired support/opposition issue prompts |
 | Public-exam split | 868 instances | Reference-answer consistency scoring |
 | Model configurations | 22 | Standard, reasoning-enabled, and step-by-step prompting modes |
+| Main multimodel response cells | 20,768 LLM-generated responses | 944 task instances x 22 model configurations |
 | Human validation pilots | 10 real-case rows; 80 public-exam rows | Staged for reviewer calibration and agreement analysis |
 
 The public snapshot includes 10 English-language preview rows from the Chinese
@@ -53,7 +54,8 @@ defensible argument structure. This project contributes:
 - a two-part benchmark that separates public-exam evaluation from real-case legal
   analysis;
 - a curated Chinese civil judgment split with paired issue-stance prompts;
-- a multimodel evaluation matrix spanning 22 model configurations;
+- a multimodel evaluation matrix spanning 22 model configurations and 20,768
+  LLM-generated response cells;
 - a scoring protocol that distinguishes answer matching from citation-aware legal
   reasoning;
 - a reproducible public workflow for sample extraction, metadata generation, and

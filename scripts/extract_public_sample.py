@@ -599,6 +599,9 @@ def write_data_readme(
         ["Total public-exam instances", str(len(bar_rows))],
     ]
     bar_law_preview_rows = bar_law_rows[:4]
+    cn_model_response_cells = len(cn_rows) * model_count
+    bar_model_response_cells = len(bar_rows) * model_count
+    total_model_response_cells = cn_model_response_cells + bar_model_response_cells
 
     content = f"""# Data Preview
 
@@ -643,9 +646,14 @@ materials remain in the private workbook pending release review.
         ["Chinese real-case issue-stance prompts", str(len(cn_rows))],
         ["Public legal-exam instances", str(len(bar_rows))],
         ["Model configurations", str(model_count)],
+        ["Main multimodel response cells", f"{total_model_response_cells:,}"],
         ["Human validation pilot rows", "10 Chinese real-case rows; 80 public-exam rows"],
     ],
 )}
+
+The main multimodel sheets contain {total_model_response_cells:,} LLM-generated
+response cells: {cn_model_response_cells:,} from the Chinese real-case split and
+{bar_model_response_cells:,} from the public-exam split.
 
 ## Public-Exam Country Coverage
 
@@ -703,6 +711,9 @@ def main() -> None:
     cn_model = first_model_name(cn_first, cn_second)
     bar_model = first_model_name(bar_first, bar_second)
     model_records = model_configuration_records(workbook)
+    cn_model_response_cells = len(cn_rows) * len(model_records)
+    bar_model_response_cells = len(bar_rows) * len(model_records)
+    total_model_response_cells = cn_model_response_cells + bar_model_response_cells
 
     cn_full_sample = [cn_sample_record(row, cn_model, args.max_cell_chars) for row in cn_rows]
     bar_sample_rows = [
@@ -783,6 +794,10 @@ def main() -> None:
             "cn_real_case_issue_stance_prompts": len(cn_rows),
             "public_exam_instances": len(bar_rows),
             "model_configurations": len(model_records),
+            "main_task_instances": len(cn_rows) + len(bar_rows),
+            "cn_real_case_model_response_cells": cn_model_response_cells,
+            "public_exam_model_response_cells": bar_model_response_cells,
+            "main_multimodel_response_cells": total_model_response_cells,
             "human_cn_pilot_rows": next(
                 item.data_rows for item in summaries if item.title == "Human_CN_Judgments"
             ),

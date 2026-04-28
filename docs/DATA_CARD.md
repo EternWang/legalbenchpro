@@ -18,6 +18,8 @@ The committed metadata file reports counts extracted from the local workbook:
 - Chinese real-case split: 76 issue-stance prompts.
 - Public-exam split: 868 instances.
 - Model configurations: 22 in the main multimodel sheets.
+- Main multimodel response cells: 20,768 LLM-generated responses, consisting of
+  1,672 Chinese real-case responses and 19,096 public-exam responses.
 - Public content previews: 10 English-language Chinese real-case preview rows and 20
   public-exam preview rows.
 - Public metadata: model configurations, source/domain distribution summaries, and

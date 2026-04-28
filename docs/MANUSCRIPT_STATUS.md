@@ -27,7 +27,9 @@ The current workbook snapshot reports:
 - 15 de-identified Chinese civil judgments;
 - 38 Chinese real-case legal issues, paired into support/opposition stance prompts;
 - 868 public-exam instances;
-- 22 model configurations in the main multimodel sheets.
+- 22 model configurations in the main multimodel sheets;
+- 20,768 LLM-generated response cells in the main multimodel sheets
+  (1,672 Chinese real-case responses and 19,096 public-exam responses).
 
 The older Overleaf PDF used stale counts in the introduction, including 971 public-exam
 instances and 18 models. Those should be replaced with the current workbook counts above

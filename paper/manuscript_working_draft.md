@@ -11,7 +11,8 @@ with de-identified real-case Chinese civil judgment prompts. The public-exam spl
 supports reference-based scoring across multiple legal systems, while the real-case
 split tests stance-aware, statute-grounded legal analysis over curated factual
 backgrounds. The current research snapshot contains 76 real-case issue-stance prompts,
-868 public-exam instances, and 22 model configurations. Human validation is in progress.
+868 public-exam instances, 22 model configurations, and 20,768 LLM-generated response
+cells in the main multimodel sheets. Human validation is in progress.
 
 ## 1. Introduction
 
@@ -33,7 +34,8 @@ This paired design allows the same factual setting to be evaluated under competi
 analytic positions. It also allows the benchmark to ask whether model rankings on
 scalable public legal tasks transfer to more practice-oriented legal analysis. The
 current workbook snapshot evaluates 22 model configurations across standard modes,
-reasoning-enabled modes, and explicit step-by-step prompting setups.
+reasoning-enabled modes, and explicit step-by-step prompting setups, yielding 20,768
+LLM-generated response cells across the two main evaluation splits.
 
 The public-exam split is scored by reference-based answer consistency. The real-case
 split is scored with a citation-aware rubric that focuses on legal authority selection,
