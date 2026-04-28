@@ -16,10 +16,6 @@ protocol, audit workflow, manuscript materials, compact content previews, and su
 metadata while keeping the complete workbook private until licensing, privacy, and
 redistribution review are complete.
 
-<p align="center">
-  <img src="outputs/figures/research_snapshot.png" alt="LegalBenchPro public research snapshot" width="900">
-</p>
-
 ## At a Glance
 
 - **Scope:** Chinese institutional and legal text, with both scalable
@@ -102,7 +98,6 @@ data/
   metadata/source_distribution.csv
 scripts/
   extract_public_sample.py            # Rebuilds the public sample and metadata
-  render_research_snapshot.py         # Renders the README overview figure
 src/legalbenchpro/
   workbook.py                         # Small workbook helpers used by scripts
 tests/
@@ -125,7 +120,6 @@ python .\scripts\extract_public_sample.py `
   --cn-sample-size 10 `
   --bar-sample-size 20 `
   --max-cell-chars 420
-python .\scripts\render_research_snapshot.py
 ```
 
 ## Validation
