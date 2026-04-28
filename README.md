@@ -16,15 +16,15 @@ protocol, audit workflow, manuscript materials, compact content previews, and su
 metadata while keeping the complete workbook private until licensing, privacy, and
 redistribution review are complete.
 
-## Reviewer Quick Scan
+## At a Glance
 
-- **Substantive fit:** Chinese institutional and legal text, with both scalable
+- **Scope:** Chinese institutional and legal text, with both scalable
   public-exam prompts and de-identified civil-judgment reasoning tasks.
-- **Methods fit:** comparable task construction, model-configuration metadata,
+- **Evaluation design:** comparable task construction, model-configuration metadata,
   scoring regimes, and staged human-validation plans.
-- **Software fit:** Python sample extraction, machine-readable metadata, tests,
-  data-card documentation, and an explicit AI-assisted workflow audit trail.
-- **Current status:** public research preview; full data release is held back pending
+- **Reproducibility:** Python sample extraction, machine-readable metadata, tests,
+  data-card documentation, and an explicit workflow audit trail.
+- **Release status:** public research preview; full data release is held back pending
   privacy, licensing, and validation review.
 
 ## Snapshot
