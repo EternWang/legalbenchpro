@@ -5,6 +5,15 @@ institutional text analysis, and empirical legal/NLP evaluation.
 
 ## Core Strengths Demonstrated
 
+### Fit For AI-Native Social-Science Research
+
+LegalBenchPro is the most relevant project in this portfolio for research groups that
+combine AI tools, institutional text data, and quantitative evaluation. It shows the
+ability to move from a substantive document-analysis problem to a version-controlled
+research artifact: source constraints, prompt design, model runs, scoring protocols,
+metadata, release decisions, and manuscript framing are documented together instead of
+being left as informal notes.
+
 ### Research Engineering
 
 The project turns a large, messy multimodel legal evaluation workbook into a documented
