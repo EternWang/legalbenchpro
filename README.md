@@ -1,21 +1,41 @@
 # LegalBenchPro
 
-LegalBenchPro is a research benchmark for evaluating large language models on
-open-ended legal reasoning, with a manuscript in preparation. The project asks whether
-models that perform well on scalable public legal-exam tasks also transfer to
-de-identified, practice-oriented case analysis.
+LegalBenchPro is a research benchmark for evaluating large language models on Chinese
+civil judgments and public legal-exam materials, with a manuscript in preparation.
+Beyond the dataset, the repository is designed as a reproducibility-first,
+AI-assisted research workflow: a Codex-assisted scoring and audit pipeline that
+organizes 20,768 LLM response cells across 22 model configurations, structured rubrics,
+machine-readable metadata, and documented safeguards for AI-assisted research decisions.
 
-The benchmark separates two evaluation settings:
+The project asks two questions in parallel:
 
-- public legal-exam tasks with reference answers;
-- de-identified Chinese civil judgment prompts that require stance-aware,
-  statute-grounded legal analysis.
+1. Do models that perform well on scalable public-exam tasks also transfer to
+   de-identified, practice-oriented case analysis?
+2. What does a defensible, auditable AI-assisted evaluation pipeline look like for
+   legal and institutional text research?
 
 **Status (as of April 2026):** manuscript draft in preparation; 20,768 LLM response
 cells collected across 22 model configurations; human-validation pilot underway; full
 data release pending licensing, privacy, and source-distribution review.
 
-**Draft introduction:** [paper/LegalBenchPro_intro_draft.pdf](paper/LegalBenchPro_intro_draft.pdf)
+## Key Artifacts
+
+- [Draft introduction](paper/LegalBenchPro_intro_draft.pdf)
+- [AI-assisted research workflow and safeguards](docs/AI_WORKFLOW.md)
+- [Annotation protocol and scoring design](docs/ANNOTATION_PROTOCOL.md)
+- [Data card](docs/DATA_CARD.md)
+
+## Project Team
+
+- **Hongyu Wang** (UC Santa Barbara) - project initiator and lead; benchmark design,
+  scoring-rubric design, AI-assisted scoring/audit pipeline, public repository
+  packaging, and manuscript drafting.
+- **Yilun Zhao** (Yale NLP Lab) - weekly research collaborator; benchmark-design
+  feedback, scoring-protocol review, and manuscript revision discussions.
+- **Yixin Liu** (Yale NLP Lab) - project feedback on benchmark design and
+  error-analysis protocols.
+- **Xuandong Zhao** (UC Berkeley) - project feedback on scoring rubrics and evaluation
+  methodology.
 
 ## Public Preview Overview
 
@@ -35,6 +55,18 @@ The figure is generated from committed public metadata:
 - **Research workflow:** public artifacts are organized so that readers can inspect the
   path from workbook-derived metadata to samples, documentation, figures, and
   manuscript materials.
+
+## Benchmark Design
+
+| Dimension | Cardinality | Values |
+| --- | ---: | --- |
+| Model configurations | 22 | Closed, open-weight, reasoning-enabled, and step-by-step prompting variants |
+| Main task instances | 944 | 76 Chinese real-case issue-stance prompts + 868 public-exam instances |
+| Jurisdiction/source families | 3 | Chinese civil judgments, U.S. state bar materials, U.K. legal-exam materials |
+| Evaluation settings | 2 | De-identified real-case reasoning and scalable public-exam scoring |
+| Main response cells | 20,768 | 944 task instances x 22 model configurations |
+| Human-validation pilot | 90 rows | 10 real-case rows + 80 public-exam rows |
+| Public preview | 30 rows | 10 translated real-case excerpts + 20 public-exam excerpts with capped cell length |
 
 ## Snapshot Counts
 
@@ -203,13 +235,7 @@ release.
 
 ## Author and Collaborators
 
-Initiated and led by Hongyu Wang.
-
-Regular project meetings and manuscript/benchmark feedback: Yilun Zhao, Yale NLP Lab
-PhD student.
-
-Additional project feedback and collaboration: Yixin Liu, Yale NLP Lab; Xuandong Zhao,
-UC Berkeley.
+See [Project Team](#project-team).
 
 ## Disclaimer
 

@@ -1,9 +1,3 @@
-Code in this repository is released under the MIT License.
-
-Dataset samples, prompts, model outputs, and documentation are released as a research
-preview only. The full dataset is not included and remains subject to source,
-licensing, privacy, and redistribution review.
-
 MIT License
 
 Copyright (c) 2026 Hongyu Wang
@@ -24,4 +18,3 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIG
 HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
