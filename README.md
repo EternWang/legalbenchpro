@@ -36,6 +36,9 @@ data release pending licensing, privacy, and source-distribution review.
   error-analysis protocols.
 - **Xuandong Zhao** (UC Berkeley) - project feedback on scoring rubrics and evaluation
   methodology.
+- **Mingqing Wang** (Wuhan University; Beijing Jintai Law Firm) - legal expert
+  reviewer; contributed human review of model outputs and professional feedback on
+  the scoring rubric.
 
 ## Public Preview Overview
 
