@@ -14,7 +14,7 @@ The project asks two questions in parallel:
 2. What does a defensible, auditable AI-assisted evaluation pipeline look like for
    legal and institutional text research?
 
-**Status (as of April 2026):** manuscript draft in preparation; 20,768 LLM response
+**Status (as of May 3, 2026):** manuscript draft in preparation; 20,768 LLM response
 cells collected across 22 model configurations; human-validation pilot underway; full
 data release pending licensing, privacy, and source-distribution review.
 
