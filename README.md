@@ -110,6 +110,29 @@ model outputs are treated as evidence to be validated rather than accepted, and 
 decisions are documented through schemas, rubrics, provenance notes, and rerunnable
 scripts.
 
+## Relevance To Human-AI Oversight
+
+Although the current public snapshot focuses on legal and institutional text,
+LegalBenchPro is also a compact example of the research infrastructure needed for
+human-AI oversight work. The project turns domain-heavy tasks into auditable model
+evaluation artifacts, then separates model outputs, scoring rubrics, reviewer-facing
+protocols, and validation samples so that human judgments can be compared against AI
+judgments rather than hidden inside a single aggregate score.
+
+The pieces most relevant to human-AI complementarity and scalable oversight are:
+
+- **annotation protocol design:** task instructions, score anchors, and reviewer notes
+  are documented in `docs/ANNOTATION_PROTOCOL.md` and `docs/SCORING_RUBRIC.md`;
+- **human validation staging:** pilot rows are selected for expert review before
+  benchmark-level claims are made;
+- **audit trails:** AI-assisted coding, scoring, and release decisions are separated in
+  `docs/AI_WORKFLOW.md`, metadata files, and reproducible scripts;
+- **model failure analysis:** the workflow tracks answer consistency, factual grounding,
+  citation relevance, and cross-setting transfer failures across model configurations;
+- **reproducible collaboration:** public samples, metadata, tests, and manuscript-status
+  notes make it easier for collaborators to inspect what is complete, what is private,
+  and what still needs validation.
+
 ## Where To Start
 
 For a quick review of the project, start with:
@@ -203,18 +226,19 @@ The repository includes a small test suite:
 macOS/Linux:
 
 ```bash
-export PYTHONPATH="$PWD/src"
-python -m unittest discover -s tests
+python -m pytest -q
 python -m compileall scripts src
 ```
 
 Windows PowerShell:
 
 ```powershell
-$env:PYTHONPATH = "$PWD\src"
-python -m unittest discover -s tests
+python -m pytest -q
 python -m compileall scripts src
 ```
+
+The `pyproject.toml` test configuration points pytest at the `src/` package layout, so
+manual `PYTHONPATH` setup is not required for local validation.
 
 ## Research Software Signals
 
