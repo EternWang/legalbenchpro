@@ -21,6 +21,9 @@ data release pending licensing, privacy, and source-distribution review.
 ## Key Artifacts
 
 - [Draft introduction](paper/LegalBenchPro_intro_draft.pdf)
+- [Presentation page 1: benchmark breakdown](paper/presentation_pages/LegalBenchPro_slide_01_benchmark_breakdown.pdf)
+- [Presentation page 3: model stability and score distribution](paper/presentation_pages/LegalBenchPro_slide_03_model_stability_score_distribution.pdf)
+- [Presentation page 5: literature and benchmark comparison](paper/presentation_pages/LegalBenchPro_slide_05_literature_benchmark_comparison.pdf)
 - [AI-assisted research workflow and safeguards](docs/AI_WORKFLOW.md)
 - [Annotation protocol and scoring design](docs/ANNOTATION_PROTOCOL.md)
 - [Data card](docs/DATA_CARD.md)
@@ -40,12 +43,17 @@ data release pending licensing, privacy, and source-distribution review.
   reviewer; contributed human review of model outputs and professional feedback on
   the scoring rubric.
 
-## Public Preview Overview
+## Presentation Excerpts
 
-<img src="outputs/figures/benchmark_overview.png" alt="LegalBenchPro public preview overview showing task instances, LLM response cells, model configurations, validation rows, source coverage, and Chinese case split design" width="920">
+The repository includes three cropped PDF pages from the current project presentation.
+They are intended as lightweight visual entry points for readers who want the argument
+before opening the full manuscript draft.
 
-The figure is generated from committed public metadata:
-`data/metadata/dataset_summary.json` and `data/metadata/source_distribution.csv`.
+| Page | PDF | Why it matters |
+| --- | --- | --- |
+| 1 | [Benchmark breakdown](paper/presentation_pages/LegalBenchPro_slide_01_benchmark_breakdown.pdf) | Establishes the benchmark inventory: public-exam rows, Chinese real-case prompts, human-scored pilot rows, model groups, and response-level evaluation counts. It explains the scale of the dataset before any model comparison is interpreted. |
+| 3 | [Model stability and score distribution](paper/presentation_pages/LegalBenchPro_slide_03_model_stability_score_distribution.pdf) | Shows that model performance should be read as a distribution across score bands, not only as a single average. The side-by-side public-exam and real-case panels make the transfer question visible. |
+| 5 | [Literature and benchmark comparison](paper/presentation_pages/LegalBenchPro_slide_05_literature_benchmark_comparison.pdf) | Positions LegalBenchPro against representative legal benchmarks by task coverage, real-document grounding, paired stances, reference-aware scoring, expert validation, and exam-to-case transfer. |
 
 ## At a Glance
 
@@ -56,7 +64,7 @@ The figure is generated from committed public metadata:
 - **Reproducibility:** Python sample extraction, machine-readable metadata, tests,
   data-card documentation, and an explicit workflow audit trail.
 - **Research workflow:** public artifacts are organized so that readers can inspect the
-  path from workbook-derived metadata to samples, documentation, figures, and
+  path from workbook-derived metadata to samples, documentation, presentation pages, and
   manuscript materials.
 
 ## Benchmark Design
@@ -101,8 +109,8 @@ defensible argument structure. This project contributes:
   LLM-generated response cells;
 - a scoring protocol that distinguishes answer matching from citation-aware legal
   reasoning;
-- a reproducible public workflow for sample extraction, metadata generation, figure
-  rendering, and manuscript tracking.
+- a reproducible public workflow for sample extraction, metadata generation,
+  presentation documentation, and manuscript tracking.
 
 For empirical social-science research, the project is also a small example of how
 LLM-assisted analysis can be made auditable: institutional text is treated as data,
@@ -148,8 +156,8 @@ For a quick review of the project, start with:
 - `data/sample/legalbenchpro_public_exam_sample.csv` for public-exam content excerpts;
 - `data/metadata/source_distribution.csv` and `data/metadata/model_configurations.csv`
   for concise metadata;
-- `scripts/extract_public_sample.py` and `scripts/render_benchmark_overview.py` for
-  the reproducible export and figure-rendering workflow.
+- `paper/presentation_pages/` for the selected presentation-page PDFs;
+- `scripts/extract_public_sample.py` for the reproducible public export workflow.
 
 ## Repository Map
 
@@ -158,6 +166,10 @@ paper/
   LegalBenchPro_intro_draft.pdf       # Current draft introduction
   introduction_revised.tex            # Dataset-aligned introduction for Overleaf
   manuscript_working_draft.md         # Working paper skeleton for GitHub readers
+  presentation_pages/                 # Cropped PDF excerpts from the project slides
+    LegalBenchPro_slide_01_benchmark_breakdown.pdf
+    LegalBenchPro_slide_03_model_stability_score_distribution.pdf
+    LegalBenchPro_slide_05_literature_benchmark_comparison.pdf
 docs/
   DATA_CARD.md                        # Dataset scope, fields, release status, risks
   ANNOTATION_PROTOCOL.md              # Human validation plan and scoring dimensions
@@ -171,11 +183,9 @@ data/
   metadata/dataset_summary.json
   metadata/model_configurations.csv
   metadata/source_distribution.csv
-outputs/
-  figures/benchmark_overview.png      # Public metadata overview figure
 scripts/
   extract_public_sample.py            # Rebuilds the public sample and metadata
-  render_benchmark_overview.py        # Rebuilds the README overview figure
+  render_benchmark_overview.py        # Optional metadata overview renderer
 src/legalbenchpro/
   workbook.py                         # Small workbook helpers used by scripts
 tests/
@@ -200,7 +210,6 @@ python scripts/extract_public_sample.py \
   --cn-sample-size 10 \
   --bar-sample-size 20 \
   --max-cell-chars 420
-python scripts/render_benchmark_overview.py
 ```
 
 Windows PowerShell:
@@ -216,7 +225,6 @@ python .\scripts\extract_public_sample.py `
   --cn-sample-size 10 `
   --bar-sample-size 20 `
   --max-cell-chars 420
-python .\scripts\render_benchmark_overview.py
 ```
 
 ## Validation
@@ -245,8 +253,7 @@ manual `PYTHONPATH` setup is not required for local validation.
 This repository is intentionally organized as a research-engineering artifact, not only
 as a dataset announcement. It demonstrates:
 
-- Python scripts that regenerate public samples, metadata, and the README overview
-  figure from structured inputs;
+- Python scripts that regenerate public samples and metadata from structured inputs;
 - explicit dataset documentation, release constraints, and annotation protocol files;
 - lightweight tests for workbook parsing utilities;
 - an audit trail for AI-assisted coding and research workflow decisions;
