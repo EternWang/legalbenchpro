@@ -42,24 +42,24 @@ data release pending licensing, privacy, and source-distribution review.
 
 ## Presentation Excerpts
 
-<img src="paper/presentation_pages/LegalBenchPro_slide_01_benchmark_breakdown.png" alt="Benchmark breakdown for LegalBenchPro, including dataset rows, human-scored rows, model groups, and response counts" width="920">
-
 **Benchmark breakdown.** This page establishes the benchmark inventory: public-exam
 rows, Chinese real-case prompts, human-scored pilot rows, model groups, and
 response-level evaluation counts. It explains the scale of the dataset before any
 model comparison is interpreted.
 
-<img src="paper/presentation_pages/LegalBenchPro_slide_03_model_stability_score_distribution.png" alt="Model stability and score distribution across public exam and real-case splits" width="920">
+<img src="paper/presentation_pages/LegalBenchPro_slide_01_benchmark_breakdown.png" alt="Benchmark breakdown for LegalBenchPro, including dataset rows, human-scored rows, model groups, and response counts" width="920">
 
 **Model stability and score distribution.** This page shows that model performance
 should be read as a distribution across score bands, not only as a single average.
 The side-by-side public-exam and real-case panels make the transfer question visible.
 
-<img src="paper/presentation_pages/LegalBenchPro_slide_05_literature_benchmark_comparison.png" alt="Literature review and benchmark comparison table positioning LegalBenchPro against representative legal benchmarks" width="920">
+<img src="paper/presentation_pages/LegalBenchPro_slide_03_model_stability_score_distribution.png" alt="Model stability and score distribution across public exam and real-case splits" width="920">
 
 **Literature and benchmark comparison.** This page positions LegalBenchPro against
 representative legal benchmarks by task coverage, real-document grounding, paired
 stances, reference-aware scoring, expert validation, and exam-to-case transfer.
+
+<img src="paper/presentation_pages/LegalBenchPro_slide_05_literature_benchmark_comparison.png" alt="Literature review and benchmark comparison table positioning LegalBenchPro against representative legal benchmarks" width="920">
 
 ## At a Glance
 
