@@ -21,9 +21,6 @@ data release pending licensing, privacy, and source-distribution review.
 ## Key Artifacts
 
 - [Draft introduction](paper/LegalBenchPro_intro_draft.pdf)
-- [Presentation page 1: benchmark breakdown](paper/presentation_pages/LegalBenchPro_slide_01_benchmark_breakdown.pdf)
-- [Presentation page 3: model stability and score distribution](paper/presentation_pages/LegalBenchPro_slide_03_model_stability_score_distribution.pdf)
-- [Presentation page 5: literature and benchmark comparison](paper/presentation_pages/LegalBenchPro_slide_05_literature_benchmark_comparison.pdf)
 - [AI-assisted research workflow and safeguards](docs/AI_WORKFLOW.md)
 - [Annotation protocol and scoring design](docs/ANNOTATION_PROTOCOL.md)
 - [Data card](docs/DATA_CARD.md)
@@ -45,15 +42,24 @@ data release pending licensing, privacy, and source-distribution review.
 
 ## Presentation Excerpts
 
-The repository includes three cropped PDF pages from the current project presentation.
-They are intended as lightweight visual entry points for readers who want the argument
-before opening the full manuscript draft.
+<img src="paper/presentation_pages/LegalBenchPro_slide_01_benchmark_breakdown.png" alt="Benchmark breakdown for LegalBenchPro, including dataset rows, human-scored rows, model groups, and response counts" width="920">
 
-| Page | PDF | Why it matters |
-| --- | --- | --- |
-| 1 | [Benchmark breakdown](paper/presentation_pages/LegalBenchPro_slide_01_benchmark_breakdown.pdf) | Establishes the benchmark inventory: public-exam rows, Chinese real-case prompts, human-scored pilot rows, model groups, and response-level evaluation counts. It explains the scale of the dataset before any model comparison is interpreted. |
-| 3 | [Model stability and score distribution](paper/presentation_pages/LegalBenchPro_slide_03_model_stability_score_distribution.pdf) | Shows that model performance should be read as a distribution across score bands, not only as a single average. The side-by-side public-exam and real-case panels make the transfer question visible. |
-| 5 | [Literature and benchmark comparison](paper/presentation_pages/LegalBenchPro_slide_05_literature_benchmark_comparison.pdf) | Positions LegalBenchPro against representative legal benchmarks by task coverage, real-document grounding, paired stances, reference-aware scoring, expert validation, and exam-to-case transfer. |
+**Benchmark breakdown.** This page establishes the benchmark inventory: public-exam
+rows, Chinese real-case prompts, human-scored pilot rows, model groups, and
+response-level evaluation counts. It explains the scale of the dataset before any
+model comparison is interpreted.
+
+<img src="paper/presentation_pages/LegalBenchPro_slide_03_model_stability_score_distribution.png" alt="Model stability and score distribution across public exam and real-case splits" width="920">
+
+**Model stability and score distribution.** This page shows that model performance
+should be read as a distribution across score bands, not only as a single average.
+The side-by-side public-exam and real-case panels make the transfer question visible.
+
+<img src="paper/presentation_pages/LegalBenchPro_slide_05_literature_benchmark_comparison.png" alt="Literature review and benchmark comparison table positioning LegalBenchPro against representative legal benchmarks" width="920">
+
+**Literature and benchmark comparison.** This page positions LegalBenchPro against
+representative legal benchmarks by task coverage, real-document grounding, paired
+stances, reference-aware scoring, expert validation, and exam-to-case transfer.
 
 ## At a Glance
 
@@ -156,7 +162,7 @@ For a quick review of the project, start with:
 - `data/sample/legalbenchpro_public_exam_sample.csv` for public-exam content excerpts;
 - `data/metadata/source_distribution.csv` and `data/metadata/model_configurations.csv`
   for concise metadata;
-- `paper/presentation_pages/` for the selected presentation-page PDFs;
+- `paper/presentation_pages/` for the selected presentation-page images;
 - `scripts/extract_public_sample.py` for the reproducible public export workflow.
 
 ## Repository Map
@@ -166,10 +172,10 @@ paper/
   LegalBenchPro_intro_draft.pdf       # Current draft introduction
   introduction_revised.tex            # Dataset-aligned introduction for Overleaf
   manuscript_working_draft.md         # Working paper skeleton for GitHub readers
-  presentation_pages/                 # Cropped PDF excerpts from the project slides
-    LegalBenchPro_slide_01_benchmark_breakdown.pdf
-    LegalBenchPro_slide_03_model_stability_score_distribution.pdf
-    LegalBenchPro_slide_05_literature_benchmark_comparison.pdf
+  presentation_pages/                 # Cropped image excerpts from the project slides
+    LegalBenchPro_slide_01_benchmark_breakdown.png
+    LegalBenchPro_slide_03_model_stability_score_distribution.png
+    LegalBenchPro_slide_05_literature_benchmark_comparison.png
 docs/
   DATA_CARD.md                        # Dataset scope, fields, release status, risks
   ANNOTATION_PROTOCOL.md              # Human validation plan and scoring dimensions
